@@ -51,7 +51,7 @@ namespace Webbpay.Api.PaymentService
             services.AddTransient<AuthorizationMessageHandler>();
 
             services.AddDbContext<StoreDbContext>(options =>
-              options.UseMySql(Configuration.GetConnectionString("StoreDb"), ServerVersion.Parse("8.0.20")),
+              options.UseMySql(Configuration.GetConnectionString("PaymentLinkDb"), ServerVersion.Parse("8.0.20")),
               ServiceLifetime.Transient);
 
             services.AddHttpClient("UserProfile")
@@ -119,7 +119,7 @@ namespace Webbpay.Api.PaymentService
                 endpoints.MapControllers();
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
+                    await context.Response.WriteAsync("");
                 });
             });
 

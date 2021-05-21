@@ -14,5 +14,5 @@
     "template"      : "serverless.template",
     "template-parameters" : "",
     "s3-bucket"           : "suijaibucket",
-    "stack-name"          : "StoreStack"
+    "stack-name"          : "PaymentLinkStack"
 }
