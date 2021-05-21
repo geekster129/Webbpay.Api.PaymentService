@@ -4,10 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Entities;
+using MediatR;
 
 namespace Webbpay.Api.PaymentService.Models
 {
-    public class GetPaymentLinkRequestModel
+    public class GetPaymentLinkRequestModel : IRequest<PaymentLink>
     {        
         public string PaymentLinkRef { get; set; }
 
