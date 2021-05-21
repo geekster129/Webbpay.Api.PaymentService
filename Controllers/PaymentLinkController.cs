@@ -9,21 +9,20 @@ using Webbpay.Api.PaymentService.Models.Dtos;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
-  [Route("api/[controller]")]
+    [Route("api/[controller]")]
     [Authorize]
-    public class PaymentController : ControllerBase
+    public class PaymentLinkController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IUserProfileAdapter _adapter;
 
-        public PaymentController(IMediator mediator, IUserProfileAdapter adapter)
+        public PaymentLinkController(IMediator mediator, IUserProfileAdapter adapter)
         {
             _mediator = mediator;
             _adapter = adapter;
         }
 
-        // POST api/values
-        [HttpPost("create-payment-link")]
+        [HttpPost]
         public async Task<ActionResult> Post([FromBody] PaymentLinkDto paymentLinkDto)
         {
             if(!ModelState.IsValid)
@@ -32,7 +31,17 @@ namespace Webbpay.Api.PaymentService.Controllers
             await _mediator.Send(new CreatePaymentLinkRequestModel(paymentLinkDto));
             return Ok();
         }
-     
 
-    }
+        [HttpGet("{paymentLinkRef}")]
+        public async Task<ActionResult> Get(string paymentLinkRef)
+        {
+            if (!ModelState.IsValid)
+              return BadRequest(ModelState);
+            var userId = HttpContext.User.GetUserId();
+            await _mediator.Send(new GetPaymentLinkRequestModel(paymentLinkRef));
+            return Ok();
+        }
+
+
+  }
 }
