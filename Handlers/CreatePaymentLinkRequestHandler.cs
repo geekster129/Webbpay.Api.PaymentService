@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace Webbpay.Api.PaymentService.Handlers
 {
-  public class CreatePaymentLinkCommandHandler : IRequestHandler<CreatePaymentLinkRequestModel>
+  public class CreatePaymentLinkRequestHandler : IRequestHandler<CreatePaymentLinkRequestModel>
   {
     public Task<Unit> Handle(CreatePaymentLinkRequestModel request, CancellationToken cancellationToken)
     {
