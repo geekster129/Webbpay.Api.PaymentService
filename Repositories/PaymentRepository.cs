@@ -37,7 +37,11 @@ namespace Webbpay.Api.PaymentService.Repositories
         return;
 
       _dbContext.PaymentTransaction.Add(paymentTransaction);
+
       paymentLink.PaymentTransactions.Add(paymentTransaction);
+      paymentLink.Updated = DateTime.Now;
+      paymentLink.UpdatedBy = paymentTransaction.CreatedBy;
+
       _dbContext.SaveChanges();
     }
 
