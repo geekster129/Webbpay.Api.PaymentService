@@ -22,7 +22,7 @@ namespace Webbpay.Api.PaymentService.Entities
     public string ContactPostcode { get; set; }
     public string ContactState { get; set; }
     public Guid CreatedBy { get; set; }
-    public DateTime Created { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
   }
 
   public enum PaymentMode

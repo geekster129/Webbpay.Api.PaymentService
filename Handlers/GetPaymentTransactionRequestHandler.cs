@@ -27,15 +27,14 @@ namespace Webbpay.Api.PaymentService.Handlers
       {
           PaymentLinkRef = request.PaymentLinkRef,
           Amount = t.Amount,
-          PaymentMode = t.PaymentMode.ToString(),
+          PaymentMode = t.PaymentMode,
           PaymentRefNo = t.PaymentRefNo,
           PaymentRemarks = t.PaymentRemarks,
-          PaymentStatus = t.PaymentStatus.ToString(),
+          PaymentStatus = t.PaymentStatus,
           ContactEmail = t.ContactEmail,
           ContactName = t.ContactName,
           ContactPostcode = t.ContactPostcode,
-          ContactState = t.ContactState
-
+          ContactState = t.ContactState          
       }).ToList();
     }
   }

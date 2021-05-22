@@ -28,11 +28,26 @@ namespace Webbpay.Api.PaymentService.Handlers
     {
       var userId = _httpContext.HttpContext.User.GetUserId();
 
+      if (request.PaymentTransactionDto.PaymentLinkRef == null)
+        return Unit.Value;
+
       var paymentTransaction = new PaymentTransaction
       {
-          
+        Amount = request.PaymentTransactionDto.Amount,
+        ContactAddress = request.PaymentTransactionDto.ContactAddress,
+        ContactEmail = request.PaymentTransactionDto.ContactEmail,
+        ContactMobileNo = request.PaymentTransactionDto.ContactMobileNo,
+        ContactName = request.PaymentTransactionDto.ContactName,
+        ContactPostcode = request.PaymentTransactionDto.ContactPostcode,
+        ContactState = request.PaymentTransactionDto.ContactState,
+        PaymentMode = request.PaymentTransactionDto.PaymentMode,
+        CreatedBy = Guid.Parse(userId),
+        PaymentRefNo = request.PaymentTransactionDto.PaymentRefNo,
+        PaymentRemarks = request.PaymentTransactionDto.PaymentRemarks,
+        PaymentStatus = request.PaymentTransactionDto.PaymentStatus,
+        
       };
-      await _repository.CreatePaymentTransactionAsync(paymentTransaction);
+      await _repository.CreatePaymentTransactionAsync(paymentTransaction, request.PaymentTransactionDto.PaymentLinkRef);
       return Unit.Value;
     }
   }

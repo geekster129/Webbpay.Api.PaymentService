@@ -8,7 +8,7 @@ namespace Webbpay.Api.PaymentService.Repositories
   {
     Task CreatePaymentLinkAsync(PaymentLink paymentLink);
     Task<PaymentLink> GetPaymentLinkAsync(string paymentLinkRef);
-    Task CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction);
+    Task CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction, string paymentLinkRef);
     Task<List<PaymentTransaction>> GetPaymentTransactionAsync(string paymentTransaction);
   }
 }
