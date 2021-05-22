@@ -11,7 +11,7 @@ using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService.Handlers
 {
-  public class GetPaymentLinkRequestHandler : IRequestHandler<GetPaymentLinkRequestModel, PaymentLink>
+  public class GetPaymentLinkRequestHandler : IRequestHandler<GetPaymentLinkRequestModel, PaymentLinkDto>
   {
     private readonly IPaymentRepository _repository;
 
@@ -20,9 +20,18 @@ namespace Webbpay.Api.PaymentService.Handlers
       _repository = repository;
     }
 
-    public async Task<PaymentLink> Handle(GetPaymentLinkRequestModel request, CancellationToken cancellationToken)
+    public async Task<PaymentLinkDto> Handle(GetPaymentLinkRequestModel request, CancellationToken cancellationToken)
     {
-      return await _repository.GetPaymentLinkAsync(request.PaymentLinkRef);
+      var paymentLink = await _repository.GetPaymentLinkAsync(request.PaymentLinkRef);
+      return new PaymentLinkDto
+      {
+        StoreId = paymentLink.StoreId,
+        InventoryId = paymentLink.InventoryId,
+        PaymentLinkRef = paymentLink.PaymentLinkRef,
+        Amount = paymentLink.Amount,
+        ExpiryDate = paymentLink.ExpiryDate,
+        Quantity = paymentLink.Quantity
+      };
     }
   }
 }

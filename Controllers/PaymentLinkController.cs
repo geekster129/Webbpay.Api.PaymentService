@@ -25,13 +25,12 @@ namespace Webbpay.Api.PaymentService.Controllers
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var userId = HttpContext.User.GetUserId();
-            await _mediator.Send(new CreatePaymentLinkRequestModel(userId, paymentLinkDto));
+            await _mediator.Send(new CreatePaymentLinkRequestModel(paymentLinkDto));
             return Ok();
         }
 
         [HttpGet("{paymentLinkRef}")]
-        public async Task<ActionResult<PaymentLink>> Get(string paymentLinkRef)
+        public async Task<ActionResult<PaymentLinkDto>> Get(string paymentLinkRef)
         {
             if (!ModelState.IsValid)
               return BadRequest(ModelState);

@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Webbpay.Api.PaymentService.Models
 {
-    public class GetPaymentLinkRequestModel : IRequest<PaymentLink>
+    public class GetPaymentLinkRequestModel : IRequest<PaymentLinkDto>
     {        
         public string PaymentLinkRef { get; set; }
 

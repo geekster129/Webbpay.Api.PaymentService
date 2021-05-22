@@ -12,12 +12,9 @@ namespace Webbpay.Api.PaymentService.Models
     {        
         public PaymentTransactionDto PaymentTransactionDto { get; set; }
 
-        public string UserId { get; set; }
-
-        public CreatePaymentTransactionRequestModel(string userId, PaymentTransactionDto paymentTransactionDto)
+        public CreatePaymentTransactionRequestModel(PaymentTransactionDto paymentTransactionDto)
         {
           PaymentTransactionDto = paymentTransactionDto;
-          UserId = userId;
         }
     }
 }

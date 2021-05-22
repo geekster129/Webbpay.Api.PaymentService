@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Webbpay.Api.PaymentService.Models.Dtos
 {
     public class PaymentTransactionDto
-  {
-        public Guid StoreId { get; set; }
-        public Guid InventoryId { get; set; }
+    {
+        [Key]
+        public Guid Id { get; set; }
         public string PaymentLinkRef { get; set; }
-        public int Quantity { get; set; }
+        public string PaymentMode { get; set; }
         public decimal Amount { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public string PaymentStatus { get; set; }
+        public string PaymentRefNo { get; set; }
+        public string PaymentRemarks { get; set; }
+        public string ContactName { get; set; }
+        public string ContactEmail { get; set; }
+        public string ContactPostcode { get; set; }
+        public string ContactState { get; set; }
   }
 }

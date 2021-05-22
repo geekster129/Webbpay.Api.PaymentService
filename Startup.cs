@@ -53,7 +53,7 @@ namespace Webbpay.Api.PaymentService
             services.AddTransient<IPaymentRepository, PaymentRepository>();
 
             services.AddDbContext<PaymentDbContext>(options =>
-              options.UseMySql(Configuration.GetConnectionString("PaymentLinkDb"), ServerVersion.Parse("8.0.20")),
+              options.UseMySql(Configuration.GetConnectionString("PaymentDb"), ServerVersion.Parse("8.0.20")),
               ServiceLifetime.Transient);
 
             services.AddHttpClient("UserProfile")
