@@ -11,8 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Webbpay.Api.PaymentService.Adapters.Database;
-using Webbpay.Api.PaymentService.Adapters.UserProfile;
+using Webbpay.Api.PaymentService.Adapters.Store;
 using Webbpay.Api.PaymentService.Helpers;
+using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService
 {
@@ -47,8 +48,9 @@ namespace Webbpay.Api.PaymentService
             services.AddControllers();
 
             services.AddHttpContextAccessor();
-            services.AddTransient<IUserProfileAdapter, UserProfileAdapter>();
+            services.AddTransient<IStoreAdapter, StoreAdapter>();
             services.AddTransient<AuthorizationMessageHandler>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
 
             services.AddDbContext<PaymentDbContext>(options =>
               options.UseMySql(Configuration.GetConnectionString("PaymentLinkDb"), ServerVersion.Parse("8.0.20")),

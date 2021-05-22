@@ -30,6 +30,7 @@ namespace Webbpay.Api.PaymentService.Handlers
           ExpiryDate = request.PaymentLinkDto.ExpiryDate,
           Quantity = request.PaymentLinkDto.Quantity,
           Amount = request.PaymentLinkDto.Amount,
+          PaymentTransactions = new List<PaymentTransaction>(),
           CreatedBy = Guid.Parse(request.UserId),
           UpdatedBy = Guid.Parse(request.UserId),
       };

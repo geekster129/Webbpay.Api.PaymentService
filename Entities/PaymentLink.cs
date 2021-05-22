@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webbpay.Api.PaymentService.Entities
 {
@@ -18,6 +20,7 @@ namespace Webbpay.Api.PaymentService.Entities
         public DateTime Updated { get; set; } = DateTime.Now;
         public Guid UpdatedBy { get; set; }
 
-        public virtual PaymentTransaction PaymentTransaction { get; set; }
+        public virtual List<PaymentTransaction> PaymentTransactions { get; set; }
+
   }
 }

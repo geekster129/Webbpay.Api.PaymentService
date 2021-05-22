@@ -8,21 +8,21 @@ using Webbpay.Api.PaymentService.Entities;
 namespace Webbpay.Api.PaymentService.Adapters.Database
 {
     public class PaymentDbContext : DbContext
-  {
-    public DbSet<PaymentLink> PaymentLink { get; set; }
-    public DbSet<PaymentTransaction> PaymentTransaction { get; set; }
-    public DbSet<PaymentGatewayConfig> PaymentGatewayConfig { get; set; }
-    public DbSet<PaymentGatewayConfigSettings> PaymentGatewayConfigSettings { get; set; }
-    public DbSet<PaymentGatewayConfigValue> PaymentGatewayConfigValue { get; set; }
-
-    public PaymentDbContext(DbContextOptions options) : base(options)
     {
-    }
+      public DbSet<PaymentLink> PaymentLink { get; set; }
+      public DbSet<PaymentTransaction> PaymentTransaction { get; set; }
+      public DbSet<PaymentGatewayConfig> PaymentGatewayConfig { get; set; }
+      public DbSet<PaymentGatewayConfigSettings> PaymentGatewayConfigSettings { get; set; }
+      public DbSet<PaymentGatewayConfigValue> PaymentGatewayConfigValue { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      modelBuilder.Entity<PaymentLink>().HasKey(pl => new { pl.Id, pl.StoreId });
-      base.OnModelCreating(modelBuilder);
+      public PaymentDbContext(DbContextOptions options) : base(options)
+      {
+      }
+
+      protected override void OnModelCreating(ModelBuilder modelBuilder)
+      {
+        modelBuilder.Entity<PaymentLink>().HasKey(pl => new { pl.Id, pl.StoreId });
+        base.OnModelCreating(modelBuilder);
+      }
     }
-  }
 }

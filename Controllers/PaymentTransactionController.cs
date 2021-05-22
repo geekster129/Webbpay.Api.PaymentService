@@ -5,39 +5,40 @@ using Microsoft.AspNetCore.Mvc;
 using Webbpay.Api.PaymentService.Extensions;
 using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Dtos;
-using Webbpay.Api.PaymentService.Entities;
+using System.Collections.Generic;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    public class PaymentLinkController : ControllerBase
+    public class PaymentTransactionController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public PaymentLinkController(IMediator mediator)
+        public PaymentTransactionController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PaymentLinkDto paymentLinkDto)
+        public async Task<ActionResult> Post([FromBody] PaymentTransactionDto paymentTransactionDto)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
             var userId = HttpContext.User.GetUserId();
-            await _mediator.Send(new CreatePaymentLinkRequestModel(userId, paymentLinkDto));
+            await _mediator.Send(new CreatePaymentTransactionRequestModel(userId, paymentTransactionDto));
             return Ok();
         }
 
         [HttpGet("{paymentLinkRef}")]
-        public async Task<ActionResult<PaymentLink>> Get(string paymentLinkRef)
+        public async Task<ActionResult<List<PaymentTransactionDto>>> Get(string paymentLinkRef)
         {
             if (!ModelState.IsValid)
               return BadRequest(ModelState);
-            var result = await _mediator.Send(new GetPaymentLinkRequestModel(paymentLinkRef));
+            var result = await _mediator.Send(new GetPaymentTransactionRequestModel(paymentLinkRef));
             return Ok(result);
         }
+
 
   }
 }
