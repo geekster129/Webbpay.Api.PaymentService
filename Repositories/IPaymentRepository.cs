@@ -5,7 +5,7 @@ namespace Webbpay.Api.PaymentService.Repositories
 {
   public interface IPaymentRepository
   {
-    void CreatePaymentLinkAsync(PaymentLink paymentLink);
+    Task CreatePaymentLinkAsync(PaymentLink paymentLink);
     Task<PaymentLink> GetPaymentLinkAsync(string paymentLinkRef);
   }
 }

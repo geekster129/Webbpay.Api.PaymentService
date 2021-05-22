@@ -23,7 +23,7 @@ namespace Webbpay.Api.PaymentService.Repositories
         .SingleAsync(pl => pl.PaymentLinkRef == paymentLinkRef);
     }
 
-    public async void CreatePaymentLinkAsync(PaymentLink paymentLink)
+    public async Task CreatePaymentLinkAsync(PaymentLink paymentLink)
     {
       await _dbContext.PaymentLink.AddAsync(paymentLink);
     }

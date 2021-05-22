@@ -12,5 +12,6 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
         public string PaymentLinkRef { get; set; }
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
-    }
+        public DateTime ExpiryDate { get; set; }
+  }
 }

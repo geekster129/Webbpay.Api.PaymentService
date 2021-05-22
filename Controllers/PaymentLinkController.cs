@@ -28,7 +28,7 @@ namespace Webbpay.Api.PaymentService.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
             var userId = HttpContext.User.GetUserId();
-            await _mediator.Send(new CreatePaymentLinkRequestModel(paymentLinkDto));
+            await _mediator.Send(new CreatePaymentLinkRequestModel(userId, paymentLinkDto));
             return Ok();
         }
 
