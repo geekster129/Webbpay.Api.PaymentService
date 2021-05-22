@@ -50,7 +50,7 @@ namespace Webbpay.Api.PaymentService
             services.AddTransient<IUserProfileAdapter, UserProfileAdapter>();
             services.AddTransient<AuthorizationMessageHandler>();
 
-            services.AddDbContext<StoreDbContext>(options =>
+            services.AddDbContext<PaymentDbContext>(options =>
               options.UseMySql(Configuration.GetConnectionString("PaymentLinkDb"), ServerVersion.Parse("8.0.20")),
               ServiceLifetime.Transient);
 
@@ -126,7 +126,7 @@ namespace Webbpay.Api.PaymentService
             using var serviceScope = app.ApplicationServices
               .GetRequiredService<IServiceScopeFactory>()
               .CreateScope();
-            using var context = serviceScope.ServiceProvider.GetService<StoreDbContext>();
+            using var context = serviceScope.ServiceProvider.GetService<PaymentDbContext>();
             context.Database.Migrate();
             context.SaveChanges();
 
