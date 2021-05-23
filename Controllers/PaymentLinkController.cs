@@ -27,7 +27,7 @@ namespace Webbpay.Api.PaymentService.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var validationResult = await _mediator.Send(new CheckStoreIdInventoryIdExistsRequestModel(paymentLinkDto.StoreId, paymentLinkDto.InventoryId));
+            var validationResult = await _mediator.Send(new CheckPaymentLinkParamsValidRequestModel(paymentLinkDto.StoreId, paymentLinkDto.InventoryId, paymentLinkDto.PaymentLinkRef));
             if(validationResult.HasError) 
             { 
               validationResult.Message.ForEach(m => ModelState.AddModelError(m.Key, m.Description));

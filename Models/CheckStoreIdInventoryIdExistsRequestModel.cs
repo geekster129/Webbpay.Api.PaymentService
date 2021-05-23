@@ -8,16 +8,17 @@ using MediatR;
 
 namespace Webbpay.Api.PaymentService.Models
 {
-    public class CheckStoreIdInventoryIdExistsRequestModel : IRequest<ValidationResponseDto>
+    public class CheckPaymentLinkParamsValidRequestModel : IRequest<ValidationResponseDto>
     {        
         public Guid StoreId { get; set; }
-
         public Guid InventoryId { get; set; }
+        public string PaymentLinkRef { get; set; }
 
-        public CheckStoreIdInventoryIdExistsRequestModel(Guid storeId, Guid inventoryId)
+        public CheckPaymentLinkParamsValidRequestModel(Guid storeId, Guid inventoryId, string paymentLinkRef)
         {
           StoreId = storeId;
           InventoryId = inventoryId;
+          PaymentLinkRef = paymentLinkRef;
         }
     }
 }
