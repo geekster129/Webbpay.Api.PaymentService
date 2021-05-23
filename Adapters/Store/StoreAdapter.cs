@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Webbpay.Api.PaymentService.Adapters.Store.AdapterModels;
 
 namespace Webbpay.Api.PaymentService.Adapters.Store
 {
@@ -16,14 +18,22 @@ namespace Webbpay.Api.PaymentService.Adapters.Store
       _httpClientFactory = httpClientFactory;
     }
 
-    public async Task GetStore(Guid storeId)
+    public async Task<StoreDto> GetStore(Guid storeId)
     {
       try
       {
         var client = _httpClientFactory.CreateClient("Store");
-        await client.GetAsync($"/api/store{storeId}");
+        var response = await client.GetAsync($"/api/Store/store-details/{storeId}");
+        if(response.IsSuccessStatusCode)
+        {
+          string responseBody = await response.Content.ReadAsStringAsync();
+          return JsonConvert.DeserializeObject<StoreDto>(responseBody);
+        }
       }
       catch (Exception ex) { }
+
+      return null;
     }
+
   }
 }

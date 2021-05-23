@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webbpay.Api.PaymentService.Entities
 {
   public class PaymentTransaction
   {
     [Key]
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public PaymentMode PaymentMode { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; set; }
     public decimal Amount { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public string PaymentRefNo { get; set; }
@@ -23,6 +24,7 @@ namespace Webbpay.Api.PaymentService.Entities
     public string ContactState { get; set; }
     public Guid CreatedBy { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
+    public PaymentMode PaymentMode { get; internal set; }
   }
 
   public enum PaymentMode

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Webbpay.Api.PaymentService.Adapters.Database;
+using Webbpay.Api.PaymentService.Adapters.Inventory;
 using Webbpay.Api.PaymentService.Adapters.Store;
 using Webbpay.Api.PaymentService.Helpers;
 using Webbpay.Api.PaymentService.Repositories;
@@ -48,6 +49,7 @@ namespace Webbpay.Api.PaymentService
             services.AddControllers();
 
             services.AddHttpContextAccessor();
+            services.AddTransient<IInventoryAdapter, InventoryAdapter>();
             services.AddTransient<IStoreAdapter, StoreAdapter>();
             services.AddTransient<AuthorizationMessageHandler>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
@@ -56,11 +58,15 @@ namespace Webbpay.Api.PaymentService
               options.UseMySql(Configuration.GetConnectionString("PaymentDb"), ServerVersion.Parse("8.0.20")),
               ServiceLifetime.Transient);
 
-            services.AddHttpClient("UserProfile")
-              .ConfigureHttpClient(http => http.BaseAddress = new Uri("https://api-userprofile.webbpay.io"))
+            services.AddHttpClient("Store")
+              .ConfigureHttpClient(http => http.BaseAddress = new Uri("https://api-store.webbpay.io"))
               .AddHttpMessageHandler<AuthorizationMessageHandler>();
 
-            services.AddSwaggerGen(options =>
+            services.AddHttpClient("Inventory")
+              .ConfigureHttpClient(http => http.BaseAddress = new Uri("https://api-inventory.webbpay.io"))
+              .AddHttpMessageHandler<AuthorizationMessageHandler>();
+
+      services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {

@@ -7,7 +7,9 @@ namespace Webbpay.Api.PaymentService.Entities
 {
     public class PaymentLink
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
         public Guid StoreId { get; set; }
         public string? PaymentLinkRef { get; set; }
         public Guid InventoryId { get; set; }
