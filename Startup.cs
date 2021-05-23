@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,7 @@ namespace Webbpay.Api.PaymentService
             services.AddHttpContextAccessor();
             services.AddTransient<IInventoryAdapter, InventoryAdapter>();
             services.AddTransient<IStoreAdapter, StoreAdapter>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<AuthorizationMessageHandler>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
 
@@ -66,7 +68,7 @@ namespace Webbpay.Api.PaymentService
               .ConfigureHttpClient(http => http.BaseAddress = new Uri("https://api-inventory.webbpay.io"))
               .AddHttpMessageHandler<AuthorizationMessageHandler>();
 
-      services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {

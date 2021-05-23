@@ -10,6 +10,8 @@ using System.Threading;
 using Webbpay.Api.PaymentService.Repositories;
 using Webbpay.Api.PaymentService.Entities;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using Webbpay.Api.PaymentService.Mappers.Profiles;
 
 namespace Webbpay.Api.PaymentService.Handlers
 {
@@ -17,31 +19,29 @@ namespace Webbpay.Api.PaymentService.Handlers
   {
     private readonly IPaymentRepository _repository;
     private readonly IHttpContextAccessor _httpContext;
+    private readonly IMapper _mapper;
 
-    public CreatePaymentLinkRequestHandler(IPaymentRepository repository, IHttpContextAccessor httpContext)
+    public CreatePaymentLinkRequestHandler(IPaymentRepository repository, IHttpContextAccessor httpContext, IMapper mapper)
     {
       _repository = repository;
       _httpContext = httpContext;
+      _mapper = mapper;
     }
 
     public async Task<Unit> Handle(CreatePaymentLinkRequestModel request, CancellationToken cancellationToken)
     {
-      var userId = _httpContext.HttpContext.User.GetUserId();
-
-      var paymentLink = new PaymentLink
-      {
-          StoreId = request.PaymentLinkDto.StoreId,
-          PaymentLinkRef = request.PaymentLinkDto.PaymentLinkRef,
-          InventoryId = request.PaymentLinkDto.InventoryId,
-          ExpiryDate = request.PaymentLinkDto.ExpiryDate,
-          Quantity = request.PaymentLinkDto.Quantity,
-          Amount = request.PaymentLinkDto.Amount,
-          PaymentTransactions = new List<PaymentTransaction>(),
-          CreatedBy = Guid.Parse(userId),
-          UpdatedBy = Guid.Parse(userId),
-      };
+      var paymentLink = Map(request.PaymentLinkDto);
       await _repository.CreatePaymentLinkAsync(paymentLink);
       return Unit.Value;
+    }
+
+    private PaymentLink Map(PaymentLinkDto paymentLinkDto)
+    {
+      var userId = _httpContext.HttpContext.User.GetUserId();
+      var paymentLink = _mapper.Map<PaymentLink>(paymentLinkDto);
+      paymentLink.CreatedBy = Guid.Parse(userId);
+      paymentLink.UpdatedBy = Guid.Parse(userId);
+      return paymentLink;
     }
   }
 }

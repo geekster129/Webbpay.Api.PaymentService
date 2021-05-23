@@ -9,10 +9,14 @@ using Webbpay.Api.PaymentService.Models.Dtos;
 
 namespace Webbpay.Api.PaymentService.Mappers.Profiles
 {
-    public class StoreProfileMapper : Profile
+    public class PaymentMapperProfile : Profile
     {
-        public StoreProfileMapper()
+        public PaymentMapperProfile()
         {
+            CreateMap<PaymentLinkDto, PaymentLink>();
+            CreateMap<PaymentLink, PaymentLinkDto>();
+            CreateMap<PaymentTransaction, PaymentTransactionDto>();
+            CreateMap<PaymentTransactionDto, PaymentTransaction>();
         }
     }
 }

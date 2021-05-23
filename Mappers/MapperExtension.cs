@@ -19,7 +19,7 @@ namespace Webbpay.Api.PaymentService.Mappers
             _mapper = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.AddProfile<StoreProfileMapper>();
+                    cfg.AddProfile<PaymentMapperProfile>();
                 }
             )
             .CreateMapper();
