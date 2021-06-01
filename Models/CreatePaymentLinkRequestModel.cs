@@ -11,10 +11,12 @@ namespace Webbpay.Api.PaymentService.Models
     public class CreatePaymentLinkRequestModel : IRequest<Unit>
     {        
         public PaymentLinkDto PaymentLinkDto { get; set; }
+        public Guid StoreId { get; set; }
 
-        public CreatePaymentLinkRequestModel(PaymentLinkDto paymentLinkDto)
+        public CreatePaymentLinkRequestModel(PaymentLinkDto paymentLinkDto, Guid storeId)
         {
           PaymentLinkDto = paymentLinkDto;
+          StoreId = storeId;
         }
     }
 }

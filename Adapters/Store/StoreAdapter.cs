@@ -23,7 +23,7 @@ namespace Webbpay.Api.PaymentService.Adapters.Store
       try
       {
         var client = _httpClientFactory.CreateClient("Store");
-        var response = await client.GetAsync($"/api/Store/store-details/{storeId}");
+        var response = await client.GetAsync($"/api/Store/{storeId}/store-details");
         if(response.IsSuccessStatusCode)
         {
           string responseBody = await response.Content.ReadAsStringAsync();

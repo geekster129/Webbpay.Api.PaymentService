@@ -7,7 +7,6 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
 {
     public class PaymentLinkDto
     {
-        public Guid StoreId { get; set; }
         public Guid InventoryId { get; set; }
         public string PaymentLinkRef { get; set; }
         public int Quantity { get; set; }

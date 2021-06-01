@@ -7,10 +7,11 @@ using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Dtos;
 using Webbpay.Api.PaymentService.Entities;
 using System.Linq;
+using System;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{storeId}")]
     [Authorize]
     public class PaymentLinkController : ControllerBase
     {
@@ -22,19 +23,19 @@ namespace Webbpay.Api.PaymentService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PaymentLinkDto paymentLinkDto)
+        public async Task<ActionResult> Post(Guid storeId, [FromBody] PaymentLinkDto paymentLinkDto)
         {          
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var validationResult = await _mediator.Send(new CheckPaymentLinkParamsValidRequestModel(paymentLinkDto.StoreId, paymentLinkDto.InventoryId, paymentLinkDto.PaymentLinkRef));
+            var validationResult = await _mediator.Send(new CheckPaymentLinkParamsValidRequestModel(storeId, paymentLinkDto.InventoryId, paymentLinkDto.PaymentLinkRef));
             if(validationResult.HasError) 
             { 
               validationResult.Message.ForEach(m => ModelState.AddModelError(m.Key, m.Description));
               return BadRequest(ModelState);
             }
 
-            await _mediator.Send(new CreatePaymentLinkRequestModel(paymentLinkDto));
+            await _mediator.Send(new CreatePaymentLinkRequestModel(paymentLinkDto, storeId));
             return Ok();
         }
 

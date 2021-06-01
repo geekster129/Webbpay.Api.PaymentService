@@ -30,15 +30,16 @@ namespace Webbpay.Api.PaymentService.Handlers
 
     public async Task<Unit> Handle(CreatePaymentLinkRequestModel request, CancellationToken cancellationToken)
     {
-      var paymentLink = Map(request.PaymentLinkDto);
+      var paymentLink = Map(request.PaymentLinkDto, request.StoreId);
       await _repository.CreatePaymentLinkAsync(paymentLink);
       return Unit.Value;
     }
 
-    private PaymentLink Map(PaymentLinkDto paymentLinkDto)
+    private PaymentLink Map(PaymentLinkDto paymentLinkDto, Guid storeId)
     {
       var userId = _httpContext.HttpContext.User.GetUserId();
       var paymentLink = _mapper.Map<PaymentLink>(paymentLinkDto);
+      paymentLink.StoreId = storeId;
       paymentLink.CreatedBy = Guid.Parse(userId);
       paymentLink.UpdatedBy = Guid.Parse(userId);
       return paymentLink;
