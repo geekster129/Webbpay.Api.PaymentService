@@ -11,9 +11,6 @@ namespace Webbpay.Api.PaymentService.Adapters.Database
     {
       public DbSet<PaymentLink> PaymentLink { get; set; }
       public DbSet<PaymentTransaction> PaymentTransaction { get; set; }
-      public DbSet<PaymentGatewayConfig> PaymentGatewayConfig { get; set; }
-      public DbSet<PaymentGatewayConfigSettings> PaymentGatewayConfigSettings { get; set; }
-      public DbSet<PaymentGatewayConfigValue> PaymentGatewayConfigValue { get; set; }
 
       public PaymentDbContext(DbContextOptions options) : base(options)
       {

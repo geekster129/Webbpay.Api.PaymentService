@@ -22,7 +22,11 @@ namespace Webbpay.Api.PaymentService.Handlers
     private readonly IStoreAdapter _storeAdapter;
     private readonly IInventoryAdapter _inventoryAdapter;
 
-    public CheckPaymentLinkParamsValidRequestHandler(IPaymentRepository repository, IHttpContextAccessor httpContext, IStoreAdapter storeAdapter, IInventoryAdapter inventoryAdapter)
+    public CheckPaymentLinkParamsValidRequestHandler(
+        IPaymentRepository repository, 
+        IHttpContextAccessor httpContext, 
+        IStoreAdapter storeAdapter, 
+        IInventoryAdapter inventoryAdapter)
     {
       _repository = repository;
       _httpContext = httpContext;
@@ -34,7 +38,7 @@ namespace Webbpay.Api.PaymentService.Handlers
     {
       var validationResp = new ValidationResponseDto();
       var store = await _storeAdapter.GetStore(request.StoreId);
-      var inventory = await _inventoryAdapter.GetInventory(request.InventoryId);
+      var inventory = await _inventoryAdapter.GetProduct(request.StoreId, request.ProductId);
       var paymentLink = await _repository.GetPaymentLinkAsync(request.PaymentLinkRef);
       if (store==null)
         validationResp.Message.Add(new Message { Key = "StoreId validation", Description = "StoreId doesn't exists!" });

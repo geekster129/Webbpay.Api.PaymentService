@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
-    [Route("api/[controller]/{storeId}")]
+    [Route("api/store/{storeId}/[controller]")]
     [Authorize]
     public class PaymentTransactionController : ControllerBase
     {

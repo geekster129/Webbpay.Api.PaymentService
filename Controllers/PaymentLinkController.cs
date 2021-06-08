@@ -11,7 +11,7 @@ using System;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
-    [Route("api/[controller]/{storeId}")]
+    [Route("api/store/{storeId}/[controller]")]
     [Authorize]
     public class PaymentLinkController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace Webbpay.Api.PaymentService.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var validationResult = await _mediator.Send(new CheckPaymentLinkParamsValidRequestModel(storeId, paymentLinkDto.InventoryId, paymentLinkDto.PaymentLinkRef));
+            var validationResult = await _mediator.Send(new CheckPaymentLinkParamsValidRequestModel(storeId, paymentLinkDto.ProductId, paymentLinkDto.PaymentLinkRef));
             if(validationResult.HasError) 
             { 
               validationResult.Message.ForEach(m => ModelState.AddModelError(m.Key, m.Description));

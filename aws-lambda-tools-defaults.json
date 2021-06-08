@@ -6,7 +6,7 @@
         "dotnet lambda help",
         "All the command line options for the Lambda command can be specified in this file."
     ],
-    "profile"     : "webbpay-munyau",
+    "profile"     : "WebbPay_Jacob",
     "region"      : "ap-southeast-1",
     "configuration" : "Release",
     "framework"     : "netcoreapp3.1",
