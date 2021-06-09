@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Amazon.S3;
 using Amazon.SimpleNotificationService;
 using AutoMapper;
 using MediatR;
@@ -108,6 +109,7 @@ namespace Webbpay.Api.PaymentService
                 });
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddAWSService<IAmazonSimpleNotificationService>();
+            services.AddAWSService<IAmazonS3>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

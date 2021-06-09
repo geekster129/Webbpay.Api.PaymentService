@@ -6,6 +6,7 @@ using Webbpay.Api.PaymentService.Extensions;
 using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Dtos;
 using System.Collections.Generic;
+using Webbpay.Api.PaymentService.Models.Queries;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {

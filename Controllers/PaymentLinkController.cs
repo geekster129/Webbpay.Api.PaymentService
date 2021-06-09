@@ -9,6 +9,7 @@ using Webbpay.Api.PaymentService.Entities;
 using System.Linq;
 using System;
 using Webbpay.Api.PaymentService.Models.Notifications;
+using Webbpay.Api.PaymentService.Models.Queries;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
@@ -49,21 +50,15 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
 
-        [HttpPost("testpublish")]
-        public async Task<ActionResult> Publish()
+        [HttpGet("/api/paymentlink/{paymentLinkRef}/cache")]
+        public async Task<ActionResult> GetCache(string paymentLinkRef)
         {
-            var paymentLink = new PaymentLinkDto
-            {
-                Id = Guid.NewGuid(),
-                StoreId = Guid.NewGuid(),
-                ProductId = Guid.NewGuid(),
-                ExpiryDate = DateTime.Now.AddYears(1),
-                Amount = 100.0M,
-                Quantity = 100
-            };
-            await _mediator.Publish(new PaymentLinkCreatedNotification(paymentLink));
-            return Ok();
+            var result = await _mediator.Send(new GetPaymentLinkCacheQuery(paymentLinkRef));
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
+
 
   }
 }

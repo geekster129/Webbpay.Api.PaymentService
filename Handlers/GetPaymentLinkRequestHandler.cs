@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Mappers;
-using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Models.Queries;
 using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService.Handlers
