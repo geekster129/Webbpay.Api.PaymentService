@@ -9,13 +9,13 @@ using Webbpay.Api.PaymentService.Entities;
 using System.Threading;
 using Webbpay.Api.PaymentService.Repositories;
 using AutoMapper;
+using Webbpay.Api.PaymentService.Mappers;
 
 namespace Webbpay.Api.PaymentService.Handlers
 {
   public class GetPaymentTransactionRequestHandler : IRequestHandler<GetPaymentTransactionRequestModel, List<PaymentTransactionDto>>
   {
     private readonly IPaymentRepository _repository;
-    private readonly IMapper _mapper;
 
     public GetPaymentTransactionRequestHandler(IPaymentRepository repository)
     {
@@ -26,7 +26,7 @@ namespace Webbpay.Api.PaymentService.Handlers
     {
       var paymentTransaction = await _repository.GetPaymentTransactionAsync(request.PaymentLinkRef);
       return paymentTransaction
-              .Select(t => _mapper.Map<PaymentTransactionDto>(t))
+              .Select(t => t.ToModel())
               .ToList();
     }
   }

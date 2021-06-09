@@ -8,6 +8,7 @@ using Webbpay.Api.PaymentService.Models.Dtos;
 using Webbpay.Api.PaymentService.Entities;
 using System.Linq;
 using System;
+using Webbpay.Api.PaymentService.Models.Notifications;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
@@ -46,6 +47,22 @@ namespace Webbpay.Api.PaymentService.Controllers
               return BadRequest(ModelState);
             var result = await _mediator.Send(new GetPaymentLinkRequestModel(paymentLinkRef));
             return Ok(result);
+        }
+
+        [HttpPost("testpublish")]
+        public async Task<ActionResult> Publish()
+        {
+            var paymentLink = new PaymentLinkDto
+            {
+                Id = Guid.NewGuid(),
+                StoreId = Guid.NewGuid(),
+                ProductId = Guid.NewGuid(),
+                ExpiryDate = DateTime.Now.AddYears(1),
+                Amount = 100.0M,
+                Quantity = 100
+            };
+            await _mediator.Publish(new PaymentLinkCreatedNotification(paymentLink));
+            return Ok();
         }
 
   }

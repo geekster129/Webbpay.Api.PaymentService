@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Amazon.SimpleNotificationService;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -19,13 +20,13 @@ using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService
 {
-  public class Startup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        
+
         readonly string WebbpayPolicy = "WebbpayPolicy";
         public static IConfiguration Configuration { get; private set; }
 
@@ -34,16 +35,16 @@ namespace Webbpay.Api.PaymentService
         {
             services.AddCors(options =>
             {
-              options.AddPolicy(name: WebbpayPolicy,
-                                builder =>
-                                {
-                                  builder.WithOrigins(
-                                      "https://localhost:44333",
-                                      "https://localhost:5001"
-                                      )
-                                  .AllowAnyHeader()
-                                  .AllowAnyMethod();
-                                });
+                options.AddPolicy(name: WebbpayPolicy,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins(
+                                        "https://localhost:44333",
+                                        "https://localhost:5001"
+                                        )
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                                  });
             });
 
 
@@ -52,7 +53,6 @@ namespace Webbpay.Api.PaymentService
             services.AddHttpContextAccessor();
             services.AddTransient<IInventoryAdapter, InventoryAdapter>();
             services.AddTransient<IStoreAdapter, StoreAdapter>();
-            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<AuthorizationMessageHandler>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
 
@@ -107,7 +107,8 @@ namespace Webbpay.Api.PaymentService
                     options.Authority = "https://oauth.webbpay.io";
                 });
             services.AddMediatR(Assembly.GetExecutingAssembly());
-    }
+            services.AddAWSService<IAmazonSimpleNotificationService>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

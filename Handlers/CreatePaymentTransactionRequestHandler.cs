@@ -11,33 +11,32 @@ using Webbpay.Api.PaymentService.Repositories;
 using Webbpay.Api.PaymentService.Entities;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
+using Webbpay.Api.PaymentService.Mappers;
 
 namespace Webbpay.Api.PaymentService.Handlers
 {
-  public class CreatePaymentTransactionRequestHandler : IRequestHandler<CreatePaymentTransactionRequestModel>
-  {
-    private readonly IPaymentRepository _repository;
-    private readonly IHttpContextAccessor _httpContext;
-    private readonly IMapper _mapper;
-
-    public CreatePaymentTransactionRequestHandler(IPaymentRepository repository, IHttpContextAccessor httpContext, IMapper mapper)
+    public class CreatePaymentTransactionRequestHandler : IRequestHandler<CreatePaymentTransactionRequestModel>
     {
-      _repository = repository;
-      _httpContext = httpContext;
-      _mapper = mapper;
-    }
+        private readonly IPaymentRepository _repository;
+        private readonly IHttpContextAccessor _httpContext;
 
-    public async Task<Unit> Handle(CreatePaymentTransactionRequestModel request, CancellationToken cancellationToken)
-    {
-      var userId = _httpContext.HttpContext.User.GetUserId();
-      if (request.PaymentTransactionDto.PaymentLinkRef == null)
-        return Unit.Value;
+        public CreatePaymentTransactionRequestHandler(IPaymentRepository repository, IHttpContextAccessor httpContext)
+        {
+            _repository = repository;
+            _httpContext = httpContext;
+        }
 
-      var paymentTransaction = _mapper.Map<PaymentTransaction>(request.PaymentTransactionDto);
-      paymentTransaction.CreatedBy = Guid.Parse(userId);
-      
-      await _repository.CreatePaymentTransactionAsync(paymentTransaction, request.PaymentTransactionDto.PaymentLinkRef);
-      return Unit.Value;
+        public async Task<Unit> Handle(CreatePaymentTransactionRequestModel request, CancellationToken cancellationToken)
+        {
+            var userId = _httpContext.HttpContext.User.GetUserId();
+            if (request.PaymentTransactionDto.PaymentLinkRef == null)
+                return Unit.Value;
+
+            var paymentTransaction = request.PaymentTransactionDto.ToEntity();
+            paymentTransaction.CreatedBy = Guid.Parse(userId);
+
+            await _repository.CreatePaymentTransactionAsync(paymentTransaction, request.PaymentTransactionDto.PaymentLinkRef);
+            return Unit.Value;
+        }
     }
-  }
 }

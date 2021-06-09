@@ -25,8 +25,16 @@ namespace Webbpay.Api.PaymentService.Mappers
             .CreateMapper();
         }
 
-        
+        public static PaymentLink ToEntity(this PaymentLinkDto paymentLink) =>
+            _mapper.Map<PaymentLink>(paymentLink);
 
+        public static PaymentLinkDto ToModel(this PaymentLink paymentLink) =>
+            _mapper.Map<PaymentLinkDto>(paymentLink);
 
+        public static PaymentTransaction ToEntity(this PaymentTransactionDto paymentTransaction) =>
+            _mapper.Map<PaymentTransaction>(paymentTransaction);
+
+        public static PaymentTransactionDto ToModel(this PaymentTransaction paymentTransaction) =>
+            _mapper.Map<PaymentTransactionDto>(paymentTransaction);
     }
 }

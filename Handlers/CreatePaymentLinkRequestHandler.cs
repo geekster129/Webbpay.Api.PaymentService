@@ -1,48 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
-using Webbpay.Api.PaymentService.Models.Dtos;
-using Webbpay.Api.PaymentService.Models;
-using Webbpay.Api.PaymentService.Extensions;
-using System.Threading;
-using Webbpay.Api.PaymentService.Repositories;
-using Webbpay.Api.PaymentService.Entities;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using AutoMapper;
-using Webbpay.Api.PaymentService.Mappers.Profiles;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Webbpay.Api.PaymentService.Entities;
+using Webbpay.Api.PaymentService.Extensions;
+using Webbpay.Api.PaymentService.Mappers;
+using Webbpay.Api.PaymentService.Models;
+using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Models.Notifications;
+using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService.Handlers
 {
-  public class CreatePaymentLinkRequestHandler : IRequestHandler<CreatePaymentLinkRequestModel>
-  {
-    private readonly IPaymentRepository _repository;
-    private readonly IHttpContextAccessor _httpContext;
-    private readonly IMapper _mapper;
-
-    public CreatePaymentLinkRequestHandler(IPaymentRepository repository, IHttpContextAccessor httpContext, IMapper mapper)
+    public class CreatePaymentLinkRequestHandler : IRequestHandler<CreatePaymentLinkRequestModel>
     {
-      _repository = repository;
-      _httpContext = httpContext;
-      _mapper = mapper;
-    }
+        private readonly IPaymentRepository _repository;
+        private readonly IHttpContextAccessor _httpContext;
+        private readonly IMediator _mediator;
 
-    public async Task<Unit> Handle(CreatePaymentLinkRequestModel request, CancellationToken cancellationToken)
-    {
-      var paymentLink = Map(request.PaymentLinkDto, request.StoreId);
-      await _repository.CreatePaymentLinkAsync(paymentLink);
-      return Unit.Value;
-    }
+        public CreatePaymentLinkRequestHandler(
+            IPaymentRepository repository, 
+            IHttpContextAccessor httpContext, 
+            IMediator mediator)
+        {
+            _repository = repository;
+            _httpContext = httpContext;
+            _mediator = mediator;
+        }
 
-    private PaymentLink Map(PaymentLinkDto paymentLinkDto, Guid storeId)
-    {
-      var userId = _httpContext.HttpContext.User.GetUserId();
-      var paymentLink = _mapper.Map<PaymentLink>(paymentLinkDto);
-      paymentLink.StoreId = storeId;
-      paymentLink.CreatedBy = Guid.Parse(userId);
-      paymentLink.UpdatedBy = Guid.Parse(userId);
-      return paymentLink;
+        public async Task<Unit> Handle(CreatePaymentLinkRequestModel request, CancellationToken cancellationToken)
+        {
+            var paymentLink = Map(request.PaymentLinkDto, request.StoreId);
+            paymentLink = await _repository.CreatePaymentLinkAsync(paymentLink);
+            await _mediator.Publish(new PaymentLinkCreatedNotification(paymentLink.ToModel()));
+            return Unit.Value;
+        }
+
+        private PaymentLink Map(PaymentLinkDto paymentLinkDto, Guid storeId)
+        {
+            var userId = _httpContext.HttpContext.User.GetUserId();
+            var paymentLink = paymentLinkDto.ToEntity();
+            paymentLink.StoreId = storeId;
+            paymentLink.CreatedBy = Guid.Parse(userId);
+            paymentLink.UpdatedBy = Guid.Parse(userId);
+            return paymentLink;
+        }
     }
-  }
 }
