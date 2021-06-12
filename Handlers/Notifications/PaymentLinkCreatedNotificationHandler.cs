@@ -37,7 +37,13 @@ namespace Webbpay.Api.PaymentService.Handlers.Notifications
             }
             var request = new PublishRequest
             {
-                Message = JsonSerializer.Serialize(notification.PaymentLink),
+                Message = JsonSerializer.Serialize(
+                    notification.PaymentLink,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    }
+                    ),
                 TopicArn = arn
             };            
             var response = await _amazonSimpleNotificationService.PublishAsync(request);
