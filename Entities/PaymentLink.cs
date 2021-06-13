@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Webbpay.Api.PaymentService.Entities
 {
+    [Index("Status")]
     public class PaymentLink
     {
         [Key]
@@ -17,6 +20,9 @@ namespace Webbpay.Api.PaymentService.Entities
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
 
+        [Column(TypeName = "varchar(15)")]
+        public PaymentLinkStatus Status { get; set; } = PaymentLinkStatus.Active;
+
         public DateTime Created { get; set; } = DateTime.Now;
         public Guid CreatedBy { get; set; }
         public DateTime Updated { get; set; } = DateTime.Now;
@@ -24,5 +30,15 @@ namespace Webbpay.Api.PaymentService.Entities
 
         public virtual List<PaymentTransaction> PaymentTransactions { get; set; }
 
-  }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum PaymentLinkStatus
+    {
+        Active,
+        Inactive,
+        Expired,
+        QuoteMaxed,
+        Deleted
+    }
 }

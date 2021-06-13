@@ -51,5 +51,19 @@ namespace Webbpay.Api.PaymentService.Repositories
             var paymentLink = await GetPaymentLinkAsync(paymentLinkRef);
             return paymentLink.PaymentTransactions;
         }
+
+        public async Task<PagedResult<PaymentLink>> SearchPaymentLinkAsync(
+            PaymentLinkStatus status = PaymentLinkStatus.Active, 
+            int page = 1, 
+            int pageSize = 10)
+        {
+            var query = _dbContext.PaymentLink.Where(p => p.Status == PaymentLinkStatus.Active);
+
+            return new PagedResult<PaymentLink>
+            {
+                Total = await query.CountAsync(),
+                Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync()
+            };
+        }
     }
 }
