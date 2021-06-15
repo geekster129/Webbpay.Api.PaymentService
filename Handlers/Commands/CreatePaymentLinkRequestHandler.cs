@@ -11,7 +11,7 @@ using Webbpay.Api.PaymentService.Models.Dtos;
 using Webbpay.Api.PaymentService.Models.Notifications;
 using Webbpay.Api.PaymentService.Repositories;
 
-namespace Webbpay.Api.PaymentService.Handlers
+namespace Webbpay.Api.PaymentService.Handlers.Commands
 {
     public class CreatePaymentLinkRequestHandler : IRequestHandler<CreatePaymentLinkRequestModel>
     {
@@ -20,8 +20,8 @@ namespace Webbpay.Api.PaymentService.Handlers
         private readonly IMediator _mediator;
 
         public CreatePaymentLinkRequestHandler(
-            IPaymentRepository repository, 
-            IHttpContextAccessor httpContext, 
+            IPaymentRepository repository,
+            IHttpContextAccessor httpContext,
             IMediator mediator)
         {
             _repository = repository;

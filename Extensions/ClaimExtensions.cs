@@ -8,12 +8,13 @@ namespace Webbpay.Api.PaymentService.Extensions
     {
         public static string GetEmail(this ClaimsPrincipal principal)
         {
-            return principal?.Claims.FirstOrDefault(c => c.Type == JwtClaimTypes.Email)?.Value;
+            return principal.FindFirstValue(JwtClaimTypes.Email);
         }
 
         public static string GetUserId(this ClaimsPrincipal principal)
         {
-            return principal?.Claims.FirstOrDefault(c => c.Type == JwtClaimTypes.Subject)?.Value;
+            return principal.FindFirstValue(JwtClaimTypes.Subject) ?? 
+                principal.FindFirstValue(JwtClaimTypes.ClientId);            
         }
     }
 }

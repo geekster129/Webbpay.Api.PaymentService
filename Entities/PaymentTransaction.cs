@@ -76,6 +76,8 @@ namespace Webbpay.Api.PaymentService.Entities
 
         [ForeignKey(nameof(PaymentLinkId))]
         public virtual PaymentLink PaymentLink { get; set; }
+
+        public virtual ICollection<TransactionEvent> Events { get; set; }
     }
 
 

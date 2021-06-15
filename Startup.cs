@@ -56,6 +56,7 @@ namespace Webbpay.Api.PaymentService
             services.AddTransient<IStoreAdapter, StoreAdapter>();
             services.AddTransient<AuthorizationMessageHandler>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<ITransactionEventRepository, TransactionEventRepository>();
 
             services.AddDbContext<PaymentDbContext>(options =>
               options.UseMySql(Configuration.GetConnectionString("PaymentDb"), ServerVersion.Parse("8.0.20")),

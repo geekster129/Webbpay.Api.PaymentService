@@ -20,6 +20,7 @@ namespace Webbpay.Api.PaymentService.Mappers
                 cfg =>
                 {
                     cfg.AddProfile<PaymentMapperProfile>();
+                    cfg.AddProfile<TransactionEventMapperProfile>();
                 }
             )
             .CreateMapper();
@@ -42,5 +43,11 @@ namespace Webbpay.Api.PaymentService.Mappers
 
         public static PagedPaymentLinkResult ToModel(this PagedResult<PaymentLink> paymentLinks) =>
             _mapper.Map<PagedPaymentLinkResult>(paymentLinks);
+
+        public static TransactionEvent ToEntity(this CreateTransactionEventModel @event) =>
+            _mapper.Map<TransactionEvent>(@event);
+
+        public static TransactionEventDto ToModel(this TransactionEvent @event) =>
+            _mapper.Map<TransactionEventDto>(@event);
     }
 }
