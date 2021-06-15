@@ -1,13 +1,12 @@
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Webbpay.Api.PaymentService.Extensions;
-using Webbpay.Api.PaymentService.Models;
-using Webbpay.Api.PaymentService.Models.Dtos;
 using System.Collections.Generic;
-using Webbpay.Api.PaymentService.Models.Queries;
+using System.Threading.Tasks;
+using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Commands;
+using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Models.Queries;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
@@ -40,7 +39,7 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{orderNo}/order-no")]
+        [HttpGet("/api/paymenttransaction/{orderNo}/order-no")]
         public async Task<ActionResult<PaymentTransactionDto>> GetByOrderNo(string orderNo)
         {
             var result = await _mediator.Send(new GetPaymentTransactionByOrderNoQuery(orderNo));
