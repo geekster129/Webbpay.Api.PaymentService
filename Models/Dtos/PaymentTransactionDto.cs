@@ -14,6 +14,7 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
         public Guid Id { get; set; }
         [Required]
         public decimal Amount { get; set; }
+        public Guid PaymentChannelId { get; set; }
 
         public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.PENDING;
         public PaymentMode PaymentMode { get; set; } 
@@ -33,6 +34,7 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
         public string ContactState { get; set; }
         public string ContactCountry { get; set; } = "MY";
         
+        public PaymentLinkDto PaymentLink { get; set; }
         
   }
 }

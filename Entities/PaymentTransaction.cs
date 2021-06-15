@@ -70,6 +70,8 @@ namespace Webbpay.Api.PaymentService.Entities
 
         public string PaymentRef2 { get; set; }
 
+        public Guid PaymentChannelId { get; set; }
+
         public string PaymentRef3 { get; set; }
 
         [ForeignKey(nameof(PaymentLinkId))]

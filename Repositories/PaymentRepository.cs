@@ -68,7 +68,8 @@ namespace Webbpay.Api.PaymentService.Repositories
 
         public async Task<PaymentTransaction> GetPaymentTransactionByOrderNo(string orderNo)
         {
-            return await _dbContext.PaymentTransaction.FirstOrDefaultAsync(t => t.PaymentOrderNo == orderNo);
+            return await _dbContext.PaymentTransaction.Include(t => t.PaymentLink)
+                .FirstOrDefaultAsync(t => t.PaymentOrderNo == orderNo);
         }
     }
 }

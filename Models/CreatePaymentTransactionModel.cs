@@ -12,7 +12,11 @@ namespace Webbpay.Api.PaymentService.Models
         [Required]
         public decimal Amount { get; set; }
 
+        [Required]
         public PaymentMode PaymentMode { get; set; }
+
+        [Required]
+        public Guid PaymentChannelId { get; set; }
 
         [Required]
         public Guid PaymentLinkId { get; set; }
