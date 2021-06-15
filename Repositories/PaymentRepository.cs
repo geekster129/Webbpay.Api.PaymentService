@@ -31,9 +31,9 @@ namespace Webbpay.Api.PaymentService.Repositories
             return await GetPaymentLinkAsync(paymentLink.PaymentLinkRef);
         }
 
-        public async Task CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction, string paymentLinkRef)
+        public async Task CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction)
         {
-            var paymentLink = await GetPaymentLinkAsync(paymentLinkRef);
+            var paymentLink = await _dbContext.PaymentLink.FindAsync(paymentTransaction.PaymentLinkId);
             if (paymentLink == null)
                 return;
 
@@ -64,6 +64,11 @@ namespace Webbpay.Api.PaymentService.Repositories
                 Total = await query.CountAsync(),
                 Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync()
             };
+        }
+
+        public async Task<PaymentTransaction> GetPaymentTransactionByOrderNo(string orderNo)
+        {
+            return await _dbContext.PaymentTransaction.FirstOrDefaultAsync(t => t.PaymentOrderNo == orderNo);
         }
     }
 }

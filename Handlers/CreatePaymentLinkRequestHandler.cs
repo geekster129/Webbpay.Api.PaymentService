@@ -42,8 +42,8 @@ namespace Webbpay.Api.PaymentService.Handlers
             var userId = _httpContext.HttpContext.User.GetUserId();
             var paymentLink = paymentLinkDto.ToEntity();
             paymentLink.StoreId = storeId;
-            paymentLink.CreatedBy = Guid.Parse(userId);
-            paymentLink.UpdatedBy = Guid.Parse(userId);
+            paymentLink.CreatedBy = userId;
+            paymentLink.UpdatedBy = userId;
             return paymentLink;
         }
     }

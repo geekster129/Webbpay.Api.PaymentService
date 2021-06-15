@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Webbpay.Api.PaymentService.Entities;
+using Webbpay.Api.PaymentService.Entities.Enums;
 
 namespace Webbpay.Api.PaymentService.Models
 {
@@ -91,11 +93,5 @@ namespace Webbpay.Api.PaymentService.Models
         public bool AllowGrabPay { get; set; }
         public bool AllowM2u { get; set; }
         public bool AllowShopeePay { get; set; }
-    }
-
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum GatewayType
-    {
-        Paydee, Razer
     }
 }

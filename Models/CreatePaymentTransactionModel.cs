@@ -3,36 +3,32 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Webbpay.Api.PaymentService.Entities;
 using Webbpay.Api.PaymentService.Entities.Enums;
 
-namespace Webbpay.Api.PaymentService.Models.Dtos
+namespace Webbpay.Api.PaymentService.Models
 {
-    public class PaymentTransactionDto
+    public class CreatePaymentTransactionModel
     {
-        [Key]
-        public Guid Id { get; set; }
         [Required]
         public decimal Amount { get; set; }
 
-        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.PENDING;
-        public PaymentMode PaymentMode { get; set; } 
+        public PaymentMode PaymentMode { get; set; }
 
         [Required]
         public Guid PaymentLinkId { get; set; }
 
-        public string PaymentChannel { get; set; }
-
+        [Required]
         public string PaymentOrderNo { get; set; }
-        public string PaymentRemarks { get; set; }
+        [Required]
         public string ContactName { get; set; }
+        [Phone]
         public string ContactMobileNo { get; set; }
+        [EmailAddress]
         public string ContactEmail { get; set; }
         public string ContactAddress { get; set; }
-        public string ContactPostcode { get; set; }
+        public string ContactPostcode { get; set; }        
         public string ContactState { get; set; }
+        [MaxLength(3)]
         public string ContactCountry { get; set; } = "MY";
-        
-        
-  }
+    }
 }

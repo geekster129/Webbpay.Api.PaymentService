@@ -34,6 +34,9 @@ namespace Webbpay.Api.PaymentService.Mappers
         public static PaymentTransaction ToEntity(this PaymentTransactionDto paymentTransaction) =>
             _mapper.Map<PaymentTransaction>(paymentTransaction);
 
+        public static PaymentTransaction ToEntity(this CreatePaymentTransactionModel paymentTransaction) =>
+            _mapper.Map<PaymentTransaction>(paymentTransaction);
+
         public static PaymentTransactionDto ToModel(this PaymentTransaction paymentTransaction) =>
             _mapper.Map<PaymentTransactionDto>(paymentTransaction);
 

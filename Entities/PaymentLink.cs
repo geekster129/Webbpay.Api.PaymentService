@@ -7,7 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace Webbpay.Api.PaymentService.Entities
 {
-    [Index("Status")]
+    [Index(nameof(Status))]
+    [Index(nameof(Id), nameof(StoreId), IsUnique = true)]
     public class PaymentLink
     {
         [Key]
@@ -24,9 +25,9 @@ namespace Webbpay.Api.PaymentService.Entities
         public PaymentLinkStatus Status { get; set; } = PaymentLinkStatus.Active;
 
         public DateTime Created { get; set; } = DateTime.Now;
-        public Guid CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime Updated { get; set; } = DateTime.Now;
-        public Guid UpdatedBy { get; set; }
+        public string UpdatedBy { get; set; }
 
         public virtual List<PaymentTransaction> PaymentTransactions { get; set; }
 

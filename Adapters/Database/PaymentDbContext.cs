@@ -18,7 +18,7 @@ namespace Webbpay.Api.PaymentService.Adapters.Database
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
-        modelBuilder.Entity<PaymentLink>().HasKey(pl => new { pl.Id, pl.StoreId });
+        //modelBuilder.Entity<PaymentLink>().HasKey(pl => new { pl.Id, pl.StoreId });
         base.OnModelCreating(modelBuilder);
       }
     }

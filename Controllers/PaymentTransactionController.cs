@@ -7,6 +7,7 @@ using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Dtos;
 using System.Collections.Generic;
 using Webbpay.Api.PaymentService.Models.Queries;
+using Webbpay.Api.PaymentService.Models.Commands;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
@@ -22,11 +23,11 @@ namespace Webbpay.Api.PaymentService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PaymentTransactionDto paymentTransactionDto)
+        public async Task<ActionResult> Post([FromBody] CreatePaymentTransactionModel paymentTransactionDto)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            await _mediator.Send(new CreatePaymentTransactionRequestModel(paymentTransactionDto));
+            await _mediator.Send(new CreatePaymentTransactionCommand(paymentTransactionDto));
             return Ok();
         }
 
@@ -36,6 +37,15 @@ namespace Webbpay.Api.PaymentService.Controllers
             if (!ModelState.IsValid)
               return BadRequest(ModelState);
             var result = await _mediator.Send(new GetPaymentTransactionRequestModel(paymentLinkRef));
+            return Ok(result);
+        }
+
+        [HttpGet("{orderNo}/order-no")]
+        public async Task<ActionResult<PaymentTransactionDto>> GetByOrderNo(string orderNo)
+        {
+            var result = await _mediator.Send(new GetPaymentTransactionByOrderNoQuery(orderNo));
+            if (result == null)
+                return NotFound();
             return Ok(result);
         }
 

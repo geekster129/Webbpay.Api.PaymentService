@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbpay.Api.PaymentService.Adapters.Database;
 
 namespace Webbpay.Api.PaymentService.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    partial class PaymentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210615031916_PaymentTransactionsUpdate")]
+    partial class PaymentTransactionsUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,9 @@ namespace Webbpay.Api.PaymentService.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("StoreId")
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("Amount")
@@ -48,21 +53,15 @@ namespace Webbpay.Api.PaymentService.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(15)");
 
-                    b.Property<Guid>("StoreId")
-                        .HasColumnType("char(36)");
-
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StoreId");
 
                     b.HasIndex("Status");
-
-                    b.HasIndex("Id", "StoreId")
-                        .IsUnique();
 
                     b.ToTable("PaymentLink");
                 });
@@ -115,7 +114,14 @@ namespace Webbpay.Api.PaymentService.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid>("PaymentLinkId")
+                    b.Property<Guid?>("PaymentLinkId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("PaymentLinkRef")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid?>("PaymentLinkStoreId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("PaymentMode")
@@ -144,23 +150,18 @@ namespace Webbpay.Api.PaymentService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentLinkId");
+                    b.HasIndex("PaymentOrderNo");
 
-                    b.HasIndex("PaymentOrderNo")
-                        .IsUnique();
+                    b.HasIndex("PaymentLinkId", "PaymentLinkStoreId");
 
                     b.ToTable("PaymentTransaction");
                 });
 
             modelBuilder.Entity("Webbpay.Api.PaymentService.Entities.PaymentTransaction", b =>
                 {
-                    b.HasOne("Webbpay.Api.PaymentService.Entities.PaymentLink", "PaymentLink")
+                    b.HasOne("Webbpay.Api.PaymentService.Entities.PaymentLink", null)
                         .WithMany("PaymentTransactions")
-                        .HasForeignKey("PaymentLinkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PaymentLink");
+                        .HasForeignKey("PaymentLinkId", "PaymentLinkStoreId");
                 });
 
             modelBuilder.Entity("Webbpay.Api.PaymentService.Entities.PaymentLink", b =>

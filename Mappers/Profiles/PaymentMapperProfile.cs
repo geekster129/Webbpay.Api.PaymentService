@@ -18,6 +18,7 @@ namespace Webbpay.Api.PaymentService.Mappers.Profiles
             CreateMap<PaymentTransaction, PaymentTransactionDto>();
             CreateMap<PaymentTransactionDto, PaymentTransaction>();
             CreateMap<PagedResult<PaymentLink>, PagedPaymentLinkResult>();
+            CreateMap<CreatePaymentTransactionModel, PaymentTransaction>();
         }
     }
 }

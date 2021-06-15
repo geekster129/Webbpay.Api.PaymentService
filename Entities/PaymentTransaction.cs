@@ -2,39 +2,80 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Webbpay.Api.PaymentService.Entities.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webbpay.Api.PaymentService.Entities
 {
-  public class PaymentTransaction
-  {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
-    public decimal Amount { get; set; }
-    public PaymentStatus PaymentStatus { get; set; }
-    public string PaymentRefNo { get; set; }
-    public string PaymentRemarks { get; set; }
-    public string ContactName { get; set; }
-    public string ContactMobileNo { get; set; }
-    public string ContactEmail { get; set; }
-    public string ContactAddress { get; set; }
-    public string ContactPostcode { get; set; }
-    public string ContactState { get; set; }
-    public Guid CreatedBy { get; set; }
-    public DateTime Created { get; set; } = DateTime.Now;
-    public PaymentMode PaymentMode { get; internal set; }
-  }
+    [Index(nameof(PaymentOrderNo), IsUnique = true)]
+    public class PaymentTransaction
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        
+        public decimal Amount { get; set; }
 
-  public enum PaymentMode
-  {
-    EWALLET, VISA, MASTER
-  }
+        [Column(TypeName = "varchar(10)")]
+        public PaymentStatus PaymentStatus { get; set; }
 
-  public enum PaymentStatus
-  { 
-    ACCEPTED, PENDING, FAILED, REJECTED
-  }
+        [Column(TypeName = "varchar(10)")]
+        public PaymentMode PaymentMode { get; internal set; }
+
+        public Guid PaymentLinkId { get; set; }
+
+        /// <summary>
+        /// Set by payment gateway, Razer
+        /// </summary>
+        [MaxLength(50)]
+        public string PaymentChannel { get; set; }
+
+        /// <summary>
+        /// Called order id for payment gateway
+        /// </summary>
+        [MaxLength(50)]
+        public string PaymentOrderNo { get; set; }
+
+
+        public string PaymentRemarks { get; set; }
+
+        [MaxLength(100)]
+        public string ContactName { get; set; }
+        
+        [MaxLength(50)]
+        public string ContactMobileNo { get; set; }
+        
+        [MaxLength(100)]
+        public string ContactEmail { get; set; }
+        
+        [MaxLength(100)]
+        public string ContactAddress { get; set; }
+        
+        [MaxLength(10)]
+        public string ContactPostcode { get; set; }
+        
+        [MaxLength(25)]
+        public string ContactState { get; set; }
+
+        [MaxLength(3)]
+        public string ContactCountry { get; set; } = "MY";
+
+        [MaxLength(100)]
+        public string CreatedBy { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
+        
+        public string PaymentRef1 { get; set; }
+
+        public string PaymentRef2 { get; set; }
+
+        public string PaymentRef3 { get; set; }
+
+        [ForeignKey(nameof(PaymentLinkId))]
+        public virtual PaymentLink PaymentLink { get; set; }
+    }
+
+
 }
 
