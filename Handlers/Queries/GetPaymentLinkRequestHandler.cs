@@ -6,7 +6,7 @@ using Webbpay.Api.PaymentService.Models.Dtos;
 using Webbpay.Api.PaymentService.Models.Queries;
 using Webbpay.Api.PaymentService.Repositories;
 
-namespace Webbpay.Api.PaymentService.Handlers
+namespace Webbpay.Api.PaymentService.Handlers.Queries
 {
     public class GetPaymentLinkRequestHandler : IRequestHandler<GetPaymentLinkRequestModel, PaymentLinkDto>
     {

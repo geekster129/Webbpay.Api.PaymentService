@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Entities;
+using Webbpay.Api.PaymentService.Entities.Enums;
 
 namespace Webbpay.Api.PaymentService.Models.Dtos
 {
