@@ -49,7 +49,7 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("{transactionId}")]
+        [HttpPut("{transactionId}")]
         public async Task<ActionResult<PaymentTransactionDto>> PatchTransaction(Guid transactionId, [FromBody] PatchPaymentTransactionModel patchData)
         {
             var result = await _mediator.Send(new PatchPaymentTransactionCommand(patchData));
