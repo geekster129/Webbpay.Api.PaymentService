@@ -10,6 +10,8 @@ using System.Linq;
 using System;
 using Webbpay.Api.PaymentService.Models.Notifications;
 using Webbpay.Api.PaymentService.Models.Queries;
+using Webbpay.Api.PaymentService.Models.Commands;
+using Webbpay.Api.PaymentService.Entities.Enums;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {

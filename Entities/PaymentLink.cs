@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Webbpay.Api.PaymentService.Entities.Enums;
 
 namespace Webbpay.Api.PaymentService.Entities
 {
@@ -31,15 +32,5 @@ namespace Webbpay.Api.PaymentService.Entities
 
         public virtual List<PaymentTransaction> PaymentTransactions { get; set; }
 
-    }
-
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum PaymentLinkStatus
-    {
-        Active,
-        Inactive,
-        Expired,
-        QuoteMaxed,
-        Deleted
     }
 }

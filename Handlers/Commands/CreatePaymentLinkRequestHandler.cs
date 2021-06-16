@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Entities;
 using Webbpay.Api.PaymentService.Extensions;
 using Webbpay.Api.PaymentService.Mappers;
-using Webbpay.Api.PaymentService.Models;
+using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Models.Dtos;
 using Webbpay.Api.PaymentService.Models.Notifications;
 using Webbpay.Api.PaymentService.Repositories;

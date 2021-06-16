@@ -24,6 +24,7 @@ namespace Webbpay.Api.PaymentService.Repositories
             _dbContext.Entry(@event).State = EntityState.Detached;
             return await _dbContext.TransactionEvents
                 .Include(c => c.Payment)
+                .ThenInclude(c => c.PaymentLink)
                 .FirstOrDefaultAsync(c => c.Id == @event.Id);
         }
 
@@ -31,7 +32,9 @@ namespace Webbpay.Api.PaymentService.Repositories
         {
             var query = _dbContext.TransactionEvents
                 .Where(e => e.PaymentTransactionId == paymentTransactionId)
-                .OrderByDescending(e => e.Created);
+                .OrderByDescending(e => e.Created)
+                .Include(c => c.Payment)
+                .ThenInclude(c => c.PaymentLink);
 
             return await query.FirstOrDefaultAsync();
         }
