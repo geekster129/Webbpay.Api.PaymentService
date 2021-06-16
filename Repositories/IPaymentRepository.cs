@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Entities;
 using Webbpay.Api.PaymentService.Entities.Enums;
@@ -15,8 +16,9 @@ namespace Webbpay.Api.PaymentService.Repositories
             int pageSize = 10);
 
         Task<PaymentTransaction> CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction);
-        Task<List<PaymentTransaction>> GetPaymentTransactionAsync(string paymentTransaction);
+        Task<List<PaymentTransaction>> GetPaymentTransactionsAsync(string paymentTransaction);
         Task<PaymentTransaction> GetPaymentTransactionByOrderNo(string orderNo);
+        Task<PaymentTransaction> GetPaymentTransactionById(Guid id);
         Task<PaymentTransaction> UpdatePaymentTransactionAsync(PaymentTransaction paymentTransaction);
 
     }

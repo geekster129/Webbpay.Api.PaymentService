@@ -21,6 +21,8 @@ namespace Webbpay.Api.PaymentService.Mappers.Profiles
             CreateMap<PagedResult<PaymentLink>, PagedPaymentLinkResult>();
             CreateMap<CreatePaymentTransactionModel, PaymentTransaction>()
                 .ForMember(t => t.PaymentStatus, opt => opt.MapFrom(t => PaymentStatus.PENDING));
+
+            CreateMap<PatchPaymentTransactionModel, PaymentTransaction>();
         }
     }
 }

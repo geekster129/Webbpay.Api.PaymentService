@@ -24,7 +24,7 @@ namespace Webbpay.Api.PaymentService.Handlers.Queries
 
         public async Task<List<PaymentTransactionDto>> Handle(GetPaymentTransactionRequestModel request, CancellationToken cancellationToken)
         {
-            var paymentTransaction = await _repository.GetPaymentTransactionAsync(request.PaymentLinkRef);
+            var paymentTransaction = await _repository.GetPaymentTransactionsAsync(request.PaymentLinkRef);
             return paymentTransaction
                     .Select(t => t.ToModel())
                     .ToList();

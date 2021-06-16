@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Models;
@@ -48,6 +49,13 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
 
+        [HttpPatch("{transactionId}")]
+        public async Task<ActionResult<PaymentTransactionDto>> PatchTransaction(Guid transactionId, [FromBody] PatchPaymentTransactionModel patchData)
+        {
+            var result = await _mediator.Send(new PatchPaymentTransactionCommand(patchData));
+
+            return Ok(result);
+        }
 
   }
 }

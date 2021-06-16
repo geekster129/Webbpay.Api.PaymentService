@@ -48,7 +48,7 @@ namespace Webbpay.Api.PaymentService.Repositories
             return paymentTransaction;
         }
 
-        public async Task<List<PaymentTransaction>> GetPaymentTransactionAsync(string paymentLinkRef)
+        public async Task<List<PaymentTransaction>> GetPaymentTransactionsAsync(string paymentLinkRef)
         {
             var paymentLink = await GetPaymentLinkAsync(paymentLinkRef);
             return paymentLink.PaymentTransactions;
@@ -71,7 +71,16 @@ namespace Webbpay.Api.PaymentService.Repositories
         public async Task<PaymentTransaction> GetPaymentTransactionByOrderNo(string orderNo)
         {
             return await _dbContext.PaymentTransaction.Include(t => t.PaymentLink)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.PaymentOrderNo == orderNo);
+        }
+
+        public async Task<PaymentTransaction> GetPaymentTransactionById(Guid id)
+        {
+            return await _dbContext.PaymentTransaction
+                .AsNoTracking()
+                .Include(t => t.PaymentLink)
+               .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<PaymentTransaction> UpdatePaymentTransactionAsync(PaymentTransaction paymentTransaction)
@@ -81,5 +90,7 @@ namespace Webbpay.Api.PaymentService.Repositories
             await _dbContext.SaveChangesAsync();
             return paymentTransaction;
         }
+
+
     }
 }
