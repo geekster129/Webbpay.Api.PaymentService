@@ -14,6 +14,8 @@ namespace Webbpay.Api.PaymentService.Models
 
         public string ReferenceId { get; set; }
 
+        public PaymentLinkStatus Status { get; set; } = PaymentLinkStatus.Active;
+
         public int Quantity { get; set; }
         public Decimal Amount { get; set; }
         public DateTime ExpiryDate { get; set; }

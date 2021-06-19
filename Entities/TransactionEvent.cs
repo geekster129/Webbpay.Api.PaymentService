@@ -30,7 +30,15 @@ namespace Webbpay.Api.PaymentService.Entities
         /// </summary>
         public string EventData { get; set; }
 
+        #region Audit fields 
+        [MaxLength(30)]
+        public string IpAddress { get; set; }
+        [MaxLength(255)]
+        public string UserAgent { get; set; }
+        #endregion
+
         [ForeignKey(nameof(PaymentTransactionId))]
         public virtual PaymentTransaction Payment { get; set; }
+
     }
 }

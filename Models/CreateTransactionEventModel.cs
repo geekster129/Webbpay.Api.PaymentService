@@ -16,5 +16,9 @@ namespace Webbpay.Api.PaymentService.Models
         public PaymentStatus PaymentStatus { get; set; }
 
         public string EventData { get; set; }
+
+        public string IpAddress { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }

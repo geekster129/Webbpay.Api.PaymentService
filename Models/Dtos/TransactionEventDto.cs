@@ -8,8 +8,7 @@ using Webbpay.Api.PaymentService.Entities.Enums;
 namespace Webbpay.Api.PaymentService.Models.Dtos
 {
     public class TransactionEventDto
-    {
-      
+    {      
         public Guid Id { get; set; }
 
         [Required]
@@ -26,7 +25,11 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
         /// Any data to just pump in
         /// </summary>
         public string EventData { get; set; }
-        
+
+        public string IpAddress { get; set; }
+
+        public string UserAgent { get; set; }
+
         public virtual PaymentTransactionDto Payment { get; set; }
     }
 }
