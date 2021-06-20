@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Webbpay.Api.PaymentService.Entities.Enums;
 using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Models.Dtos;
@@ -31,6 +32,25 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok();
         }
 
+        [HttpGet("search")]
+        public async Task<ActionResult<PagedPaymentTransactionsResult>> Search(
+            Guid storeId,
+            PaymentStatus? paymentStatus = PaymentStatus.ACCEPTED,
+            Guid? paymentLinkId = null, 
+            Guid? productId = null, 
+            int page = 1, int pageSize = 10)
+        {
+            var result = await _mediator.Send(new SearchPaymentTransactionQuery(
+                storeId,
+                paymentStatus,
+                paymentLinkId,
+                productId,
+                page,
+                pageSize
+                ));
+            return Ok(result);
+        }
+ 
         [HttpGet("{paymentLinkRef}")]
         public async Task<ActionResult<List<PaymentTransactionDto>>> Get(string paymentLinkRef)
         {

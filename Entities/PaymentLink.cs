@@ -9,6 +9,7 @@ namespace Webbpay.Api.PaymentService.Entities
 {
     [Index(nameof(Status))]
     [Index(nameof(Id), nameof(StoreId), IsUnique = true)]
+    [Index(nameof(ProductId))]
     public class PaymentLink
     {
         [Key]

@@ -15,10 +15,20 @@ namespace Webbpay.Api.PaymentService.Repositories
             int page = 1,
             int pageSize = 10);
 
+        Task<PagedResult<PaymentTransaction>> SearchPaymentTransactionAsync(
+            Guid storeId,
+            PaymentStatus? paymentStatus = PaymentStatus.ACCEPTED,
+            Guid? paymentLinkId = null,
+            Guid? productId = null,
+            int page = 1,
+            int pageSize = 10
+            );
         Task<PaymentTransaction> CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction);
+        
         Task<List<PaymentTransaction>> GetPaymentTransactionsAsync(string paymentTransaction);
         Task<PaymentTransaction> GetPaymentTransactionByOrderNo(string orderNo);
         Task<PaymentTransaction> GetPaymentTransactionById(Guid id);
+        
         Task<PaymentTransaction> UpdatePaymentTransactionAsync(PaymentTransaction paymentTransaction);
 
     }

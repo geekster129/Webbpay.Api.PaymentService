@@ -91,6 +91,29 @@ namespace Webbpay.Api.PaymentService.Repositories
             return paymentTransaction;
         }
 
+        public async Task<PagedResult<PaymentTransaction>> SearchPaymentTransactionAsync(
+            Guid storeId,
+            PaymentStatus? paymentStatus = PaymentStatus.ACCEPTED,
+            Guid? paymentLinkId = null, 
+            Guid? productId = null, 
+            int page = 1, int pageSize = 10)
+        {
+            var query = _dbContext.PaymentTransaction
+                .Include(p => p.PaymentLink)
+                .OrderByDescending(p => p.Created)
+                .Where(p => p.PaymentLink.StoreId == storeId);
+            if (paymentStatus.HasValue)
+                query = query.Where(p => p.PaymentStatus == paymentStatus);
+            if (paymentLinkId.HasValue)
+                query = query.Where(p => p.PaymentLinkId == paymentLinkId);
+            if (productId.HasValue)
+                query = query.Where(p => p.PaymentLink.ProductId == productId);
 
+            return new PagedResult<PaymentTransaction>
+            {
+                Total = await query.CountAsync(),
+                Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync()
+            };
+        }
     }
 }

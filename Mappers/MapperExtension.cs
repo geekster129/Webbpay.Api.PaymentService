@@ -44,6 +44,9 @@ namespace Webbpay.Api.PaymentService.Mappers
         public static PaymentTransactionDto ToModel(this PaymentTransaction paymentTransaction) =>
             _mapper.Map<PaymentTransactionDto>(paymentTransaction);
 
+        public static PagedPaymentTransactionsResult ToModel(this PagedResult<PaymentTransaction> transactions) =>
+            _mapper.Map<PagedPaymentTransactionsResult>(transactions);
+
         public static PagedPaymentLinkResult ToModel(this PagedResult<PaymentLink> paymentLinks) =>
             _mapper.Map<PagedPaymentLinkResult>(paymentLinks);
 

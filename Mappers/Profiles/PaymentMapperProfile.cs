@@ -23,6 +23,7 @@ namespace Webbpay.Api.PaymentService.Mappers.Profiles
                 .ForMember(t => t.PaymentStatus, opt => opt.MapFrom(t => PaymentStatus.PENDING));
 
             CreateMap<PatchPaymentTransactionModel, PaymentTransaction>();
+            CreateMap<PagedResult<PaymentTransaction>, PagedPaymentTransactionsResult>();
         }
     }
 }
