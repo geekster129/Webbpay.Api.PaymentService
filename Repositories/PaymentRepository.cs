@@ -59,7 +59,7 @@ namespace Webbpay.Api.PaymentService.Repositories
             int page = 1, 
             int pageSize = 10)
         {
-            var query = _dbContext.PaymentLink.Where(p => p.Status == PaymentLinkStatus.Active);
+            var query = _dbContext.PaymentLink.Where(p => p.Status == status);
 
             return new PagedResult<PaymentLink>
             {
