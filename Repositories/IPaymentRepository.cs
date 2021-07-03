@@ -24,7 +24,8 @@ namespace Webbpay.Api.PaymentService.Repositories
             int pageSize = 10
             );
         Task<PaymentTransaction> CreatePaymentTransactionAsync(PaymentTransaction paymentTransaction);
-        
+
+        Task<List<PaymentTransaction>> GetPaymentTransactionsByStoreAsync(Guid storeId);
         Task<List<PaymentTransaction>> GetPaymentTransactionsAsync(string paymentTransaction);
         Task<PaymentTransaction> GetPaymentTransactionByOrderNo(string orderNo);
         Task<PaymentTransaction> GetPaymentTransactionById(Guid id);

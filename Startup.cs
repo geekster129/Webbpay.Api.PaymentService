@@ -17,6 +17,7 @@ using Webbpay.Api.PaymentService.Adapters.Database;
 using Webbpay.Api.PaymentService.Adapters.Inventory;
 using Webbpay.Api.PaymentService.Adapters.Store;
 using Webbpay.Api.PaymentService.Helpers;
+using Webbpay.Api.PaymentService.Mappers.Statistics;
 using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService
@@ -55,6 +56,7 @@ namespace Webbpay.Api.PaymentService
             services.AddTransient<IInventoryAdapter, InventoryAdapter>();
             services.AddTransient<IStoreAdapter, StoreAdapter>();
             services.AddTransient<AuthorizationMessageHandler>();
+            services.AddTransient<IStatisticsMapper, StatisticsMapper>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<ITransactionEventRepository, TransactionEventRepository>();
 
