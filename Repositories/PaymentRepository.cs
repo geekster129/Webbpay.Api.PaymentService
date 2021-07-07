@@ -48,6 +48,15 @@ namespace Webbpay.Api.PaymentService.Repositories
             return paymentTransaction;
         }
 
+        public async Task<List<PaymentTransaction>> GetPaymentTransactionsByStoreAsync(Guid storeId)
+        {
+            return await _dbContext.PaymentLink
+              .Include(pl => pl.PaymentTransactions)
+              .Where(pl => pl.StoreId == storeId)
+              .SelectMany(pl => pl.PaymentTransactions)
+              .ToListAsync();
+        }
+
         public async Task<List<PaymentTransaction>> GetPaymentTransactionsAsync(string paymentLinkRef)
         {
             var paymentLink = await GetPaymentLinkAsync(paymentLinkRef);
