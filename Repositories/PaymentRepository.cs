@@ -64,11 +64,12 @@ namespace Webbpay.Api.PaymentService.Repositories
         }
 
         public async Task<PagedResult<PaymentLink>> SearchPaymentLinkAsync(
+            Guid storeId,
             PaymentLinkStatus status = PaymentLinkStatus.Active, 
             int page = 1, 
             int pageSize = 10)
         {
-            var query = _dbContext.PaymentLink.Where(p => p.Status == status);
+            var query = _dbContext.PaymentLink.Where(p =>p.StoreId == storeId && p.Status == status);
 
             return new PagedResult<PaymentLink>
             {

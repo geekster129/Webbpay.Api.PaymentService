@@ -23,6 +23,7 @@ namespace Webbpay.Api.PaymentService.Handlers.Queries
         public async Task<PagedPaymentLinkResult> Handle(SearchPaymentLinksQuery request, CancellationToken cancellationToken)
         {
             var result = await _paymentRepository.SearchPaymentLinkAsync(
+                request.StoreId,
                 request.Status,
                 request.Page,
                 request.PageSize

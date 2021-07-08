@@ -11,6 +11,7 @@ namespace Webbpay.Api.PaymentService.Repositories
         Task<PaymentLink> CreatePaymentLinkAsync(PaymentLink paymentLink);
         Task<PaymentLink> GetPaymentLinkAsync(string paymentLinkRef);
         Task<PagedResult<PaymentLink>> SearchPaymentLinkAsync(
+            Guid storeId,
             PaymentLinkStatus status = PaymentLinkStatus.Active,
             int page = 1,
             int pageSize = 10);

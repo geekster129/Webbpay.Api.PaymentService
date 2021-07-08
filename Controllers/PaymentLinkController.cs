@@ -62,9 +62,9 @@ namespace Webbpay.Api.PaymentService.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult> Search(PaymentLinkStatus status = PaymentLinkStatus.Active, int page = 1, int pageSize = 10)
+        public async Task<ActionResult> Search(Guid storeId, PaymentLinkStatus status = PaymentLinkStatus.Active, int page = 1, int pageSize = 10)
         {
-            var result = await _mediator.Send(new SearchPaymentLinksQuery(status, page, pageSize));
+            var result = await _mediator.Send(new SearchPaymentLinksQuery(storeId, status, page, pageSize));
 
             return Ok(result);
         }
