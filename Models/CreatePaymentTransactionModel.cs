@@ -34,5 +34,8 @@ namespace Webbpay.Api.PaymentService.Models
         public string ContactState { get; set; }
         [MaxLength(3)]
         public string ContactCountry { get; set; } = "MY";
+        public string  IpAddress { get; set; }
+
+        public string UserAgent { get; set; }
     }
 }
