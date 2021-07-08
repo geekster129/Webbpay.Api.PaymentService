@@ -12,6 +12,7 @@ using Webbpay.Api.PaymentService.Models.Notifications;
 using Webbpay.Api.PaymentService.Models.Queries;
 using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Entities.Enums;
+using System.Collections.Generic;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
@@ -49,6 +50,13 @@ namespace Webbpay.Api.PaymentService.Controllers
             if (!ModelState.IsValid)
               return BadRequest(ModelState);
             var result = await _mediator.Send(new GetPaymentLinkRequestModel(paymentLinkRef));
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IList<PaymentLinkDto>>> Get(Guid storeId, IList<Guid> paymentlinkId)
+        {
+            var result = await _mediator.Send(new GetPaymentLinksQuery(storeId, paymentlinkId));
             return Ok(result);
         }
 

@@ -125,5 +125,11 @@ namespace Webbpay.Api.PaymentService.Repositories
                 Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync()
             };
         }
+
+        public async Task<IList<PaymentLink>> GetPaymentLinksAsync(Guid storeId, IEnumerable<Guid> paymentLinkIds)
+        {
+            return await _dbContext.PaymentLink.AsNoTracking()
+                .Where(p => p.StoreId == storeId && paymentLinkIds.Contains(p.Id)).ToListAsync();
+        }
     }
 }
