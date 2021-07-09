@@ -21,6 +21,7 @@ namespace Webbpay.Api.PaymentService.Mappers
                 {
                     cfg.AddProfile<PaymentMapperProfile>();
                     cfg.AddProfile<TransactionEventMapperProfile>();
+                    cfg.AddProfile<RefundTransactionMapperProfile>();
                 }
             )
             .CreateMapper();
@@ -58,5 +59,13 @@ namespace Webbpay.Api.PaymentService.Mappers
 
         public static TransactionEventDto ToModel(this TransactionEvent @event) =>
             _mapper.Map<TransactionEventDto>(@event);
+
+        #region Refund 
+        public static RefundTransaction ToEntity(this RefundRequestModel request) =>
+            _mapper.Map<RefundTransaction>(request);
+
+        public static RefundTransactionDto ToModel(this RefundTransaction refund) =>
+            _mapper.Map<RefundTransactionDto>(refund);
+        #endregion
     }
 }

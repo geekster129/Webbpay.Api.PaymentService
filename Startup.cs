@@ -53,12 +53,13 @@ namespace Webbpay.Api.PaymentService
             services.AddControllers();
 
             services.AddHttpContextAccessor();
-            services.AddTransient<IInventoryAdapter, InventoryAdapter>();
-            services.AddTransient<IStoreAdapter, StoreAdapter>();
-            services.AddTransient<AuthorizationMessageHandler>();
-            services.AddTransient<IStatisticsMapper, StatisticsMapper>();
-            services.AddTransient<IPaymentRepository, PaymentRepository>();
-            services.AddTransient<ITransactionEventRepository, TransactionEventRepository>();
+            services.AddScoped<IInventoryAdapter, InventoryAdapter>();
+            services.AddScoped<IStoreAdapter, StoreAdapter>();
+            services.AddScoped<AuthorizationMessageHandler>();
+            services.AddScoped<IStatisticsMapper, StatisticsMapper>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<ITransactionEventRepository, TransactionEventRepository>();
+            services.AddScoped<IRefundRepository, RefundRepository>();
 
             services.AddDbContext<PaymentDbContext>(options =>
               options.UseMySql(Configuration.GetConnectionString("PaymentDb"), ServerVersion.Parse("8.0.20")),
