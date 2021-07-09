@@ -34,6 +34,9 @@ namespace Webbpay.Api.PaymentService.Entities
 
         public DateTime? Updated { get; set; } = null;
 
+        [ForeignKey(nameof(PaymentTransactionId))]
         public virtual PaymentTransaction PaymentTransaction { get; set; }
+
+        public virtual ICollection<RefundEvent> Events { get; set; }
     }
 }

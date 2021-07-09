@@ -11,6 +11,8 @@ namespace Webbpay.Api.PaymentService.Adapters.Database
     {
         public DbSet<PaymentLink> PaymentLink { get; set; }
         public DbSet<PaymentTransaction> PaymentTransaction { get; set; }
+        public DbSet<RefundTransaction> RefundTransactions { get; set; }
+        public DbSet<RefundEvent> RefundEvents { get; set; }
 
         public DbSet<TransactionEvent> TransactionEvents { get; set; }
 
