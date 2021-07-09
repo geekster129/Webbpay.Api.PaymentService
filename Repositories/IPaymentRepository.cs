@@ -14,6 +14,7 @@ namespace Webbpay.Api.PaymentService.Repositories
         Task<PagedResult<PaymentLink>> SearchPaymentLinkAsync(
             Guid storeId,
             PaymentLinkStatus status = PaymentLinkStatus.Active,
+            Guid? productId = null,
             int page = 1,
             int pageSize = 10);
 

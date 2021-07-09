@@ -25,6 +25,7 @@ namespace Webbpay.Api.PaymentService.Handlers.Queries
             var result = await _paymentRepository.SearchPaymentLinkAsync(
                 request.StoreId,
                 request.Status,
+                request.ProductId,
                 request.Page,
                 request.PageSize
                 );
