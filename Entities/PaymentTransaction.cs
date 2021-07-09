@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Webbpay.Api.PaymentService.Entities
 {
     [Index(nameof(PaymentOrderNo), IsUnique = true)]
+    [Index(nameof(PaymentStatus))]
     public class PaymentTransaction
     {
         [Key]
@@ -78,6 +79,8 @@ namespace Webbpay.Api.PaymentService.Entities
         public virtual PaymentLink PaymentLink { get; set; }
 
         public virtual ICollection<TransactionEvent> Events { get; set; }
+
+        public virtual ICollection<PaymentTransaction> PaymentTransactions { get; set; }
     }
 
 
