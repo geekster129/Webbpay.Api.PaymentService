@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbpay.Api.PaymentService.Adapters.Database;
 
 namespace Webbpay.Api.PaymentService.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    partial class PaymentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210709120722_Add successful payments field")]
+    partial class Addsuccessfulpaymentsfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,6 +152,9 @@ namespace Webbpay.Api.PaymentService.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(10)");
 
+                    b.Property<Guid?>("PaymentTransactionId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentLinkId");
@@ -158,6 +163,8 @@ namespace Webbpay.Api.PaymentService.Migrations
                         .IsUnique();
 
                     b.HasIndex("PaymentStatus");
+
+                    b.HasIndex("PaymentTransactionId");
 
                     b.ToTable("PaymentTransaction");
                 });
@@ -215,10 +222,6 @@ namespace Webbpay.Api.PaymentService.Migrations
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<string>("ExternalRefNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<Guid>("PaymentTransactionId")
                         .HasColumnType("char(36)");
@@ -291,6 +294,10 @@ namespace Webbpay.Api.PaymentService.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Webbpay.Api.PaymentService.Entities.PaymentTransaction", null)
+                        .WithMany("PaymentTransactions")
+                        .HasForeignKey("PaymentTransactionId");
+
                     b.Navigation("PaymentLink");
                 });
 
@@ -308,7 +315,7 @@ namespace Webbpay.Api.PaymentService.Migrations
             modelBuilder.Entity("Webbpay.Api.PaymentService.Entities.RefundTransaction", b =>
                 {
                     b.HasOne("Webbpay.Api.PaymentService.Entities.PaymentTransaction", "PaymentTransaction")
-                        .WithMany("RefundTransactions")
+                        .WithMany()
                         .HasForeignKey("PaymentTransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -336,7 +343,7 @@ namespace Webbpay.Api.PaymentService.Migrations
                 {
                     b.Navigation("Events");
 
-                    b.Navigation("RefundTransactions");
+                    b.Navigation("PaymentTransactions");
                 });
 
             modelBuilder.Entity("Webbpay.Api.PaymentService.Entities.RefundTransaction", b =>
