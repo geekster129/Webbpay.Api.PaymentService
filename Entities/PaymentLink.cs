@@ -17,6 +17,7 @@ namespace Webbpay.Api.PaymentService.Entities
         public Guid Id { get; set; }
         public Guid StoreId { get; set; }
         public string? PaymentLinkRef { get; set; }
+        public string? PaymentLinkDesc { get; set; }
         public int SuccessfulTransactions { get; set; }
         public Guid ProductId { get; set; }
         public DateTime ExpiryDate { get; set; }
