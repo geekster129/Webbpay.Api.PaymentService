@@ -17,6 +17,14 @@ namespace Webbpay.Api.PaymentService.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<RefundTransaction> Get(Guid refundTransactionId)
+        {
+            return await _dbContext.RefundTransactions
+                .Include(c => c.PaymentTransaction)
+                .ThenInclude(c => c.PaymentLink)
+                .FirstOrDefaultAsync(f => f.Id == refundTransactionId);
+        }
+
         public async Task<RefundTransaction> Create(RefundTransaction refund)
         {
             await _dbContext.RefundTransactions.AddAsync(refund);
@@ -28,6 +36,17 @@ namespace Webbpay.Api.PaymentService.Repositories
                 
                 .FirstOrDefaultAsync(f => f.Id == refund.Id);
             return refund;
+        }
+
+        public async Task<RefundTransaction> Update(RefundTransaction refund)
+        {
+            _dbContext.RefundTransactions.Attach(refund);
+            _dbContext.Entry(refund).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return await _dbContext.RefundTransactions
+                .Include(c => c.PaymentTransaction)
+                .ThenInclude(c => c.PaymentLink)
+                .FirstOrDefaultAsync(f => f.Id == refund.Id);
         }
 
         public async Task<RefundEvent> CreateEvent(RefundEvent @event)
@@ -42,5 +61,7 @@ namespace Webbpay.Api.PaymentService.Repositories
         {
             return await _dbContext.RefundTransactions.Where(r => r.PaymentTransactionId == paymentTransactionId).ToListAsync();
         }
+
+
     }
 }

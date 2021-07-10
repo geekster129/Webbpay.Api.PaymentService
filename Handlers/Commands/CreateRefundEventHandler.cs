@@ -7,6 +7,7 @@ using Webbpay.Api.PaymentService.Extensions;
 using Webbpay.Api.PaymentService.Mappers;
 using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Models.Notifications;
 using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService.Handlers.Commands
@@ -15,11 +16,13 @@ namespace Webbpay.Api.PaymentService.Handlers.Commands
     {
         private readonly IRefundRepository _refundRepository;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IMediator _mediator;
 
-        public CreateRefundEventHandler(IRefundRepository refundRepository, IHttpContextAccessor httpContext)
+        public CreateRefundEventHandler(IRefundRepository refundRepository, IHttpContextAccessor httpContext, IMediator mediator)
         {
             _refundRepository = refundRepository;
             _httpContext = httpContext;
+            _mediator = mediator;
         }
 
         public async Task<RefundEventDto> Handle(CreateRefundEventCommand request, CancellationToken cancellationToken)
@@ -30,6 +33,9 @@ namespace Webbpay.Api.PaymentService.Handlers.Commands
 
             @event = await _refundRepository.CreateEvent(@event);
             var model = @event.ToModel();
+
+            await _mediator.Publish(new RefundEventCreatedNotification(model));
+
 
             return model;
         }

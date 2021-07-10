@@ -36,5 +36,18 @@ namespace Webbpay.Api.PaymentService.Controllers
                 return BadRequest(ModelState);
             }           
         }
+
+        [HttpPut("/api/refund/{refundtransactionId}")]
+        public async Task<ActionResult<RefundTransactionDto>> PatchRefundTransaction(Guid refundtransactionId, PatchRefundTransactionModel patchData)
+        {
+            if(refundtransactionId!=patchData.RefundTransactionId)
+            {
+                ModelState.AddModelError("Error", "Id does not match");
+                return BadRequest(ModelState);
+            }
+            var result = await _mediator.Send(new PatchRefundTransactionCommand(patchData));
+            return Ok(result);
+        }
+
     }
 }

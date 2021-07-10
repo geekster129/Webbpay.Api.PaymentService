@@ -20,7 +20,8 @@ namespace Webbpay.Api.PaymentService.Mappers.Profiles
                 .ForMember(f => f.Id, opt => opt.MapFrom(f => Guid.NewGuid()))
                 .ForMember(f => f.RefundStatus, opt => opt.MapFrom(f => RefundStatus.Pending))
                 .ForMember(f => f.ExternalRefNo, opt => opt.MapFrom(f => KeyGenerator.GetUniqueKey(10)));
-            CreateMap<CreateRefundEventModel, RefundEvent>();            
+            CreateMap<CreateRefundEventModel, RefundEvent>();
+            CreateMap<PatchRefundTransactionModel, RefundTransaction>();
         }
     }
 }
