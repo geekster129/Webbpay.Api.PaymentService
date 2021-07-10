@@ -22,6 +22,9 @@ namespace Webbpay.Api.PaymentService.Entities
         [Column(TypeName = "varchar(10)")]
         public RefundStatus RefundStatus { get; set; }
 
+        [StringLength(50)]
+        public string ExternalRefNo { get; set; }
+
         public Guid PaymentTransactionId { get; set; }
 
         [MaxLength(100)]

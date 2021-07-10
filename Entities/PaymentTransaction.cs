@@ -80,7 +80,7 @@ namespace Webbpay.Api.PaymentService.Entities
 
         public virtual ICollection<TransactionEvent> Events { get; set; }
 
-        public virtual ICollection<PaymentTransaction> PaymentTransactions { get; set; }
+        public virtual ICollection<RefundTransaction> RefundTransactions { get; set; }
     }
 
 

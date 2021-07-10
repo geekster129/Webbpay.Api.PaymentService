@@ -66,6 +66,12 @@ namespace Webbpay.Api.PaymentService.Mappers
 
         public static RefundTransactionDto ToModel(this RefundTransaction refund) =>
             _mapper.Map<RefundTransactionDto>(refund);
+
+        public static RefundEvent ToEntity(this CreateRefundEventModel refund) =>
+            _mapper.Map<RefundEvent>(refund);
+
+        public static RefundEventDto ToModel(this RefundEvent @event) =>
+            _mapper.Map<RefundEventDto>(@event);
         #endregion
     }
 }

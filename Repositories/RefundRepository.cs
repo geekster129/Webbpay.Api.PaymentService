@@ -22,6 +22,11 @@ namespace Webbpay.Api.PaymentService.Repositories
             await _dbContext.RefundTransactions.AddAsync(refund);
             await _dbContext.SaveChangesAsync();
             _dbContext.Entry(refund).State = EntityState.Detached;
+            refund = await _dbContext.RefundTransactions
+                .Include(c => c.PaymentTransaction)
+                .ThenInclude(f => f.PaymentLink)                
+                
+                .FirstOrDefaultAsync(f => f.Id == refund.Id);
             return refund;
         }
 

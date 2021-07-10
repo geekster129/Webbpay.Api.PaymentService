@@ -28,5 +28,9 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
 
         public DateTime? Updated { get; set; } = null;
 
+        public string ExternalRefNo { get; set; }
+
+        public PaymentTransactionDto PaymentTransaction { get; set; }
+
     }
 }
