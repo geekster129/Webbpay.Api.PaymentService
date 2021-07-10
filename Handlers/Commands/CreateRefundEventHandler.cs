@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Extensions;
 using Webbpay.Api.PaymentService.Mappers;
+using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Models.Dtos;
 using Webbpay.Api.PaymentService.Models.Notifications;
@@ -33,6 +34,16 @@ namespace Webbpay.Api.PaymentService.Handlers.Commands
 
             @event = await _refundRepository.CreateEvent(@event);
             var model = @event.ToModel();
+
+            // patch refund data
+            var patchData = new PatchRefundTransactionModel
+            {
+                RefundTransactionId = @event.RefundTransactionId,
+                RefundStatus = @event.RefundStatus,
+                Updated = @event.Created,
+                UpdatedBy = @event.CreatedBy
+            };
+            await _mediator.Send(new PatchRefundTransactionCommand(patchData));
 
             await _mediator.Publish(new RefundEventCreatedNotification(model));
 

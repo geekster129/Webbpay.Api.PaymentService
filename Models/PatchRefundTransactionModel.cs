@@ -10,6 +10,10 @@ namespace Webbpay.Api.PaymentService.Models
     {
         public Guid RefundTransactionId { get; set; }
 
-        public RefundStatus RefundStatus{ get; set; }        
+        public RefundStatus RefundStatus { get; set; }
+
+        public DateTime Updated { get; set; }
+
+        public string UpdatedBy { get; set; }
     }
 }
