@@ -12,12 +12,12 @@ namespace Webbpay.Api.PaymentService.Models.Queries
     {
         public SearchRefundTransactionQuery(
             RefundStatus status,
-            int page,
-            int pageSize)
+            int page = 1,
+            int pageSize = 10)
         {
             Status = status;
-            Page = page = 1;
-            PageSize = pageSize = 10;
+            Page = page;
+            PageSize = pageSize;
         }
 
         public RefundStatus Status { get; }
