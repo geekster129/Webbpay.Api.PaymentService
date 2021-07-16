@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Webbpay.Api.PaymentService.Entities.Enums;
 using Webbpay.Api.PaymentService.Models;
 using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Models.Queries;
 
 namespace Webbpay.Api.PaymentService.Controllers
 {
@@ -46,6 +48,13 @@ namespace Webbpay.Api.PaymentService.Controllers
                 return BadRequest(ModelState);
             }
             var result = await _mediator.Send(new PatchRefundTransactionCommand(patchData));
+            return Ok(result);
+        }
+
+        [HttpGet("/api/refund/search")]
+        public async Task<ActionResult<PagedRefundTransactionResult>> Search(RefundStatus status, int page = 1, int pageSize = 10)
+        {
+            var result = await _mediator.Send(new SearchRefundTransactionQuery(status, page, pageSize));
             return Ok(result);
         }
 

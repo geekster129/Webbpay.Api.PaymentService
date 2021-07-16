@@ -22,6 +22,7 @@ namespace Webbpay.Api.PaymentService.Mappers.Profiles
                 .ForMember(f => f.ExternalRefNo, opt => opt.MapFrom(f => KeyGenerator.GetUniqueKey(10)));
             CreateMap<CreateRefundEventModel, RefundEvent>();
             CreateMap<PatchRefundTransactionModel, RefundTransaction>();
+            CreateMap<PagedResult<RefundTransaction>, PagedRefundTransactionResult>();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Adapters.Database;
 using Webbpay.Api.PaymentService.Entities;
+using Webbpay.Api.PaymentService.Entities.Enums;
 
 namespace Webbpay.Api.PaymentService.Repositories
 {
@@ -62,6 +63,15 @@ namespace Webbpay.Api.PaymentService.Repositories
             return await _dbContext.RefundTransactions.Where(r => r.PaymentTransactionId == paymentTransactionId).ToListAsync();
         }
 
-
+        public async Task<PagedResult<RefundTransaction>> SearchAll(RefundStatus status, int page, int pageSize)
+        {
+            var query = _dbContext.RefundTransactions.Where(q => q.RefundStatus == status);
+            var ret = new PagedResult<RefundTransaction>
+            {
+                Total = await query.CountAsync(),
+                Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync()
+            };
+            return ret;
+        }
     }
 }

@@ -75,6 +75,9 @@ namespace Webbpay.Api.PaymentService.Mappers
 
         public static RefundTransaction PatchEntity(this RefundTransaction refund, PatchRefundTransactionModel patchData) =>
             _mapper.Map(patchData, refund);
+
+        public static PagedRefundTransactionResult ToModel(this PagedResult<RefundTransaction> refunds) =>
+            _mapper.Map<PagedRefundTransactionResult>(refunds);
         #endregion
     }
 }
