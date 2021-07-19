@@ -65,11 +65,14 @@ namespace Webbpay.Api.PaymentService.Repositories
 
         public async Task<PagedResult<RefundTransaction>> SearchAll(RefundStatus status, int page, int pageSize)
         {
-            var query = _dbContext.RefundTransactions.Where(q => q.RefundStatus == status);
+            var query = _dbContext.RefundTransactions.Where(q => q.RefundStatus == status).OrderBy(f => f.Created);
             var ret = new PagedResult<RefundTransaction>
             {
                 Total = await query.CountAsync(),
-                Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync()
+                Items = await query.Skip((page - 1) * pageSize).Take(pageSize)
+                    .Include(c => c.PaymentTransaction)
+                    .ThenInclude(c => c.PaymentLink)
+                    .ToListAsync()
             };
             return ret;
         }
