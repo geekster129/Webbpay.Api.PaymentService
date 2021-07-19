@@ -18,6 +18,6 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
         public PaymentLinkStatus Status { get; set; } = PaymentLinkStatus.Active;
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
   }
 }

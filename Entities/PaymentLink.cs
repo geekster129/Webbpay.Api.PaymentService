@@ -20,7 +20,7 @@ namespace Webbpay.Api.PaymentService.Entities
         public string? PaymentLinkDesc { get; set; }
         public int SuccessfulTransactions { get; set; }
         public Guid ProductId { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
 
