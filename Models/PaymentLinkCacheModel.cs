@@ -18,7 +18,7 @@ namespace Webbpay.Api.PaymentService.Models
 
         public int Quantity { get; set; }
         public Decimal Amount { get; set; }
-        public DateTime? ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; } = null;
 
         public ProductModel Product { get; set; }
 
