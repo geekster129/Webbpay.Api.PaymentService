@@ -36,7 +36,7 @@ namespace Webbpay.Api.PaymentService.Models.Dtos
         public string PaymentRef1 { get; set; }
         public string PaymentRef2 { get; set; }
         public string PaymentRef3 { get; set; }
-
+        public DateTime Created { get; set; }
         public PaymentLinkDto PaymentLink { get; set; }
         
   }
