@@ -21,7 +21,7 @@ namespace Webbpay.Api.PaymentService.Repositories
             int pageSize = 10);
 
         Task<PagedResult<PaymentTransaction>> SearchPaymentTransactionAsync(
-            Guid storeId,
+            Guid? storeId = null,
             PaymentStatus? paymentStatus = PaymentStatus.ACCEPTED,
             Guid? paymentLinkId = null,
             Guid? productId = null,

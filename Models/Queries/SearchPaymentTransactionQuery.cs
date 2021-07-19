@@ -11,7 +11,7 @@ namespace Webbpay.Api.PaymentService.Models.Queries
     public class SearchPaymentTransactionQuery : IRequest<PagedPaymentTransactionsResult>
     {
         public SearchPaymentTransactionQuery(
-            Guid storeId,
+            Guid? storeId = null,
             PaymentStatus? paymentStatus = null,
             Guid? paymentLinkId = null,
             Guid? productId = null,
@@ -26,7 +26,7 @@ namespace Webbpay.Api.PaymentService.Models.Queries
             PageSize = pageSize;
         }
 
-        public Guid StoreId { get; }
+        public Guid? StoreId { get; }
         public PaymentStatus? PaymentStatus { get; }
         public Guid? PaymentLinkId { get; }
         public Guid? ProductId { get; }

@@ -80,6 +80,12 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
         
+        [HttpGet("/api/paymenttransactions/search")]
+        public async Task<ActionResult<PagedPaymentTransactionsResult>> Search(PaymentStatus status, int page = 1, int pageSize = 10)
+        {
+            var result = await _mediator.Send(new SearchPaymentTransactionQuery(storeId: null, paymentStatus: status, page: page, pageSize: pageSize));
+            return result;
+        }
 
         //[HttpGet("/requery/{transactionId}")]
         //[AllowAnonymous]
