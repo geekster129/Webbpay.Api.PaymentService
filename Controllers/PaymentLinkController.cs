@@ -77,5 +77,11 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
 
+        [HttpGet("/api/paymentlink/{paymentLinkRef}/status")]
+        public async Task<ActionResult<PaymentLinkStatus>> Status(string paymentLinkRef)
+        {
+            var result = await _mediator.Send(new GetPaymentLinkStatusQuery(paymentLinkRef));
+            return Ok(result);
+        }
   }
 }

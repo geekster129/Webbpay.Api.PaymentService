@@ -79,6 +79,7 @@ namespace Webbpay.Api.PaymentService.Controllers
 
             return Ok(result);
         }
+        
 
         //[HttpGet("/requery/{transactionId}")]
         //[AllowAnonymous]

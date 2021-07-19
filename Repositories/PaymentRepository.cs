@@ -135,5 +135,14 @@ namespace Webbpay.Api.PaymentService.Repositories
             return await _dbContext.PaymentLink.AsNoTracking()
                 .Where(p => p.StoreId == storeId && paymentLinkIds.Contains(p.Id)).ToListAsync();
         }
+
+        public async Task<PaymentLink> UpdatePaymentLinkAsync(PaymentLink paymentLink)
+        {
+            _dbContext.PaymentLink.Attach(paymentLink);
+            _dbContext.Entry(paymentLink).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            _dbContext.Entry(paymentLink).State = EntityState.Detached;
+            return await GetPaymentLinkAsync(paymentLink.PaymentLinkRef);
+        }
     }
 }
