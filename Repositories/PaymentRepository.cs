@@ -65,7 +65,7 @@ namespace Webbpay.Api.PaymentService.Repositories
         }
 
         public async Task<PagedResult<PaymentLink>> SearchPaymentLinkAsync(
-            Guid storeId,
+            Guid? storeId,
             PaymentLinkStatus status = PaymentLinkStatus.Active,
             Guid? productId = null,
             int page = 1, 
@@ -73,8 +73,10 @@ namespace Webbpay.Api.PaymentService.Repositories
             bool forceCheckExpired = false)
         {
             var query = _dbContext.PaymentLink.AsQueryable();
-            query = query.Where(p => p.StoreId == storeId && p.Status == status);
+            query = query.Where(p => p.Status == status);
 
+            if (storeId.HasValue)
+                query = query.Where(p => p.StoreId == storeId);           
 
             if (productId.HasValue)
                 query = query.Where(p => p.ProductId == productId);

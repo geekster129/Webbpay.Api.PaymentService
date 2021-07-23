@@ -77,6 +77,14 @@ namespace Webbpay.Api.PaymentService.Controllers
             return Ok(result);
         }
 
+        [HttpGet("/api/paymentlinks/search")]
+        public async Task<ActionResult<PagedPaymentLinkResult>> SearchCore(PaymentLinkStatus status, int page = 1, int pageSize = 10, bool forceCheckExpired = false)
+        {
+            var result = await _mediator.Send(new SearchPaymentLinksQuery(null, status, null, page, pageSize, forceCheckExpired));
+
+            return Ok(result);
+        }
+
         [HttpGet("/api/paymentlink/{paymentLinkRef}/status")]
         public async Task<ActionResult<PaymentLinkStatus>> Status(string paymentLinkRef)
         {
