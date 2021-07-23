@@ -69,7 +69,8 @@ namespace Webbpay.Api.PaymentService.Repositories
             PaymentLinkStatus status = PaymentLinkStatus.Active,
             Guid? productId = null,
             int page = 1, 
-            int pageSize = 10)
+            int pageSize = 10,
+            bool forceCheckExpired = false)
         {
             var query = _dbContext.PaymentLink.AsQueryable();
             query = query.Where(p => p.StoreId == storeId && p.Status == status);
@@ -77,6 +78,11 @@ namespace Webbpay.Api.PaymentService.Repositories
 
             if (productId.HasValue)
                 query = query.Where(p => p.ProductId == productId);
+
+            if(forceCheckExpired)
+            {
+                query = query.Where(p => p.ExpiryDate.HasValue && p.ExpiryDate <= DateTime.UtcNow);
+            }
 
             return new PagedResult<PaymentLink>
             {
@@ -127,6 +133,7 @@ namespace Webbpay.Api.PaymentService.Repositories
                 query = query.Where(p => p.PaymentLinkId == paymentLinkId);
             if (productId.HasValue)
                 query = query.Where(p => p.PaymentLink.ProductId == productId);
+
 
             return new PagedResult<PaymentTransaction>
             {

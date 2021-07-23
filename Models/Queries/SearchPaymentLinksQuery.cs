@@ -7,12 +7,15 @@ namespace Webbpay.Api.PaymentService.Models.Queries
 {
     public class SearchPaymentLinksQuery : IRequest<PagedPaymentLinkResult>
     {
+        private readonly bool forceCheckExpired;
+
         public SearchPaymentLinksQuery(
-            Guid storeId, 
+            Guid storeId,
             PaymentLinkStatus status = PaymentLinkStatus.Active,
             Guid? productId = null,
             int page = 1,
-            int pageSize = 10
+            int pageSize = 10,
+            bool forceCheckExpired = false
             )
         {
             StoreId = storeId;
@@ -20,6 +23,7 @@ namespace Webbpay.Api.PaymentService.Models.Queries
             ProductId = productId;
             Page = page;
             PageSize = pageSize;
+            ForceCheckExpired = forceCheckExpired;
         }
 
         public Guid StoreId { get; }
@@ -27,5 +31,6 @@ namespace Webbpay.Api.PaymentService.Models.Queries
         public Guid? ProductId { get; }
         public int Page { get; }
         public int PageSize { get; }
+        public bool ForceCheckExpired { get; set; }
     }
 }

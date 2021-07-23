@@ -27,7 +27,8 @@ namespace Webbpay.Api.PaymentService.Handlers.Queries
                 request.Status,
                 request.ProductId,
                 request.Page,
-                request.PageSize
+                request.PageSize,
+                request.ForceCheckExpired
                 );
 
             return result.ToModel();
