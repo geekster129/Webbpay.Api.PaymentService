@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Webbpay.Api.PaymentService.Mappers;
 using Webbpay.Api.PaymentService.Models.Commands;
 using Webbpay.Api.PaymentService.Models.Dtos;
+using Webbpay.Api.PaymentService.Models.Notifications;
 using Webbpay.Api.PaymentService.Repositories;
 
 namespace Webbpay.Api.PaymentService.Handlers.Commands
@@ -14,10 +15,12 @@ namespace Webbpay.Api.PaymentService.Handlers.Commands
     public class PatchPaymentTransactionHandler : IRequestHandler<PatchPaymentTransactionCommand, PaymentTransactionDto>
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IMediator _mediator;
 
-        public PatchPaymentTransactionHandler(IPaymentRepository paymentRepository)
+        public PatchPaymentTransactionHandler(IPaymentRepository paymentRepository, IMediator mediator)
         {
             _paymentRepository = paymentRepository;
+            _mediator = mediator;
         }
 
         public async Task<PaymentTransactionDto> Handle(PatchPaymentTransactionCommand request, CancellationToken cancellationToken)
@@ -30,7 +33,10 @@ namespace Webbpay.Api.PaymentService.Handlers.Commands
 
             await _paymentRepository.UpdatePaymentTransactionAsync(transaction);
 
-            return transaction.ToModel();
+            var transactionModel = transaction.ToModel();
+            if (transaction.PaymentStatus == Entities.Enums.PaymentStatus.ACCEPTED)
+                await _mediator.Publish(new PaymentSuccessNotification(transactionModel));
+            return transactionModel;
         }
     }
 }
