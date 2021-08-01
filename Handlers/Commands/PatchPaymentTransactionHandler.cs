@@ -29,12 +29,14 @@ namespace Webbpay.Api.PaymentService.Handlers.Commands
             if (transaction == null)
                 throw new Exception("Invalid payment transaction");
 
+            var previousStatus = transaction.PaymentStatus;
+
             transaction = transaction.PatchEntity(request.PatchModel);
 
             await _paymentRepository.UpdatePaymentTransactionAsync(transaction);
 
             var transactionModel = transaction.ToModel();
-            if (transaction.PaymentStatus == Entities.Enums.PaymentStatus.ACCEPTED)
+            if (previousStatus != Entities.Enums.PaymentStatus.ACCEPTED && transaction.PaymentStatus == Entities.Enums.PaymentStatus.ACCEPTED)
                 await _mediator.Publish(new PaymentSuccessNotification(transactionModel));
             return transactionModel;
         }
