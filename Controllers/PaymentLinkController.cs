@@ -66,7 +66,7 @@ namespace Webbpay.Api.PaymentService.Controllers
             var result = await _mediator.Send(new GetPaymentLinkCacheQuery(paymentLinkRef));
             if (result == null)
                 return NotFound();
-            return Ok(result);
+            return Content(result, "application/json");
         }
 
         [HttpGet("search")]

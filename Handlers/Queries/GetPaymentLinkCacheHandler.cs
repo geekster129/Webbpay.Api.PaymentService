@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using Webbpay.Api.PaymentService.Models.Queries;
 
 namespace Webbpay.Api.PaymentService.Handlers.Queries
 {
-    public class GetPaymentLinkCacheHandler : IRequestHandler<GetPaymentLinkCacheQuery, PaymentlinkCacheModel>
+    public class GetPaymentLinkCacheHandler : IRequestHandler<GetPaymentLinkCacheQuery, string>
     {
         private readonly IAmazonS3 _amazonS3;
         private readonly ILogger<GetPaymentLinkCacheHandler> _logger;
@@ -26,7 +27,7 @@ namespace Webbpay.Api.PaymentService.Handlers.Queries
             _logger = logger;
         }
 
-        public async Task<PaymentlinkCacheModel> Handle(GetPaymentLinkCacheQuery request, CancellationToken cancellationToken)
+        public async Task<string> Handle(GetPaymentLinkCacheQuery request, CancellationToken cancellationToken)
         {
 
             try
@@ -39,7 +40,11 @@ namespace Webbpay.Api.PaymentService.Handlers.Queries
                 using (GetObjectResponse response = await _amazonS3.GetObjectAsync(req))
                 using (Stream responseStream = response.ResponseStream)
                 {
-                    return await JsonSerializer.DeserializeAsync<PaymentlinkCacheModel>(responseStream);
+                    using(var reader = new StreamReader(responseStream, Encoding.UTF8))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                    //return await JsonSerializer.DeserializeAsync<JsonDocument>(responseStream);
                 }
             }
             catch (AmazonS3Exception e)
