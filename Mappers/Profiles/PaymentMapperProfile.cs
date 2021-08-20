@@ -22,7 +22,12 @@ namespace Webbpay.Api.PaymentService.Mappers.Profiles
             CreateMap<CreatePaymentTransactionModel, PaymentTransaction>()
                 .ForMember(t => t.PaymentStatus, opt => opt.MapFrom(t => PaymentStatus.PENDING));
 
-            CreateMap<PatchPaymentTransactionModel, PaymentTransaction>();
+            CreateMap<PatchPaymentTransactionModel, PaymentTransaction>()
+                .ForMember(f => f.PaymentChannel, opt => opt.Condition(s => !string.IsNullOrEmpty(s.PaymentChannel)))
+                .ForMember(f => f.PaymentRef1, opt => opt.Condition(s => !string.IsNullOrEmpty(s.PaymentRef1)))
+                .ForMember(f => f.PaymentRef2, opt => opt.Condition(s => !string.IsNullOrEmpty(s.PaymentRef2)))
+                .ForMember(f => f.PaymentRef3, opt => opt.Condition(s => !string.IsNullOrEmpty(s.PaymentRef3)));
+
             CreateMap<PagedResult<PaymentTransaction>, PagedPaymentTransactionsResult>();
         }
     }
